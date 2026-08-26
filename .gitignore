@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+ml_env/
+.env
+
+# macOS
+.DS_Store
+
+# Datasets
+datasets/
+
+# YOLO training outputs
+runs/
+
+# Temporary files
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+
+# Python cache
+.pytest_cache/

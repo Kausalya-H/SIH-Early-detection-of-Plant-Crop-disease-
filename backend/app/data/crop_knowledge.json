@@ -1,0 +1,79 @@
+{
+  "Tomato": {
+    "Early Blight": {
+      "warning_signs": [
+        "Small dark spots appear on older leaves",
+        "Spots may develop concentric rings",
+        "Leaves gradually turn yellow and fall"
+      ],
+      "advice": "Remove severely affected leaves and avoid keeping the foliage wet for long periods.",
+      "severity": "Medium",
+      "treatment": "Remove infected plant material and improve air circulation. Use a fungicide only when necessary and according to the product label.",
+      "active_ingredient": "Chlorothalonil or Mancozeb",
+      "application": "Follow the locally approved product label for crop, dose, spray interval, and pre-harvest interval.",
+      "safety_note": "Use only products approved for tomato and the diagnosed disease. Follow the label and use appropriate protective equipment."
+    },
+
+    "Late Blight": {
+      "warning_signs": [
+        "Dark water-soaked patches appear on leaves",
+        "Brown or black lesions may spread quickly",
+        "Fruit may develop dark firm patches"
+      ],
+      "advice": "Remove affected plant material and improve air circulation around plants.",
+      "severity": "High",
+      "treatment": "Remove severely affected material and use an appropriately approved fungicide when required.",
+      "active_ingredient": "Mancozeb or Metalaxyl + Mancozeb",
+      "application": "Follow the locally approved product label for dose, spray interval, and pre-harvest interval.",
+      "safety_note": "Use only products approved for tomato and late blight. Follow the label and wear appropriate protective equipment."
+    }
+  },
+
+  "Chilli": {
+    "Bacterial Leaf Spot": {
+      "warning_signs": [
+        "Small water-soaked spots appear on leaves",
+        "Spots become dark and irregular",
+        "Leaves may yellow and drop"
+      ],
+      "advice": "Remove heavily affected leaves and avoid overhead irrigation.",
+      "severity": "Medium",
+      "treatment": "Remove affected plant material and reduce leaf wetness. Use only locally approved disease-management products when necessary.",
+      "active_ingredient": "Copper-based bactericide",
+      "application": "Follow the locally approved product label for chilli, including dose and application interval.",
+      "safety_note": "Use only products approved for chilli and the diagnosed disease. Follow the product label."
+    }
+  },
+
+  "Groundnut": {
+    "Early Leaf Spot": {
+      "warning_signs": [
+        "Small brown spots appear on leaves",
+        "Spots may have a yellow halo",
+        "Affected leaves may fall early"
+      ],
+      "advice": "Monitor lower leaves regularly and remove heavily affected plant material.",
+      "severity": "Medium",
+      "treatment": "Use integrated disease management and an approved fungicide when necessary.",
+      "active_ingredient": "Chlorothalonil or Mancozeb",
+      "application": "Follow the locally approved product label for groundnut, including dose and spray interval.",
+      "safety_note": "Use only products approved for groundnut and the diagnosed disease."
+    }
+  },
+
+  "Rice": {
+    "Rice Blast": {
+      "warning_signs": [
+        "Spindle-shaped lesions appear on leaves",
+        "Lesions may have gray centers",
+        "Severe infection can affect the panicle"
+      ],
+      "advice": "Monitor fields regularly and follow locally approved crop-management recommendations.",
+      "severity": "High",
+      "treatment": "Use integrated disease management and an approved blast-management fungicide when necessary.",
+      "active_ingredient": "Tricyclazole",
+      "application": "Follow the locally approved product label for rice, including dose, application timing, and pre-harvest interval.",
+      "safety_note": "Use only products approved for rice blast in your region and follow the product label."
+    }
+  }
+}
