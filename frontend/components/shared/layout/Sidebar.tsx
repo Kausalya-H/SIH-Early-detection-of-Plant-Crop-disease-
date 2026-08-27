@@ -92,7 +92,10 @@ export function Sidebar({ items, portalRole, isOpen = false, onClose, className 
           {/* Navigation Links */}
           <nav className="px-3 py-4 space-y-1 overflow-y-auto max-h-[calc(100vh-280px)]">
             {items.map((item) => {
-              const isActive = pathname === item.href || (item.href !== `/${portalRole.toLowerCase()}` && pathname.startsWith(item.href));
+              const portalBasePath = `/${portalRole.toLowerCase()}`;
+              const isDashboardItem = item.href === portalBasePath || item.href === `${portalBasePath}/dashboard`;
+              const isDashboardRoute = isDashboardItem && (pathname === portalBasePath || pathname === `${portalBasePath}/dashboard`);
+              const isActive = isDashboardRoute || (!isDashboardItem && pathname.startsWith(item.href));
 
               return (
                 <Link
