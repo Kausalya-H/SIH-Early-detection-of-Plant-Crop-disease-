@@ -382,4 +382,53 @@ export const MOCK_OFFICER_METRICS = {
   containmentRatePercent: 71.4,
   fieldInspectionsThisWeek: 168,
   satelliteRiskIndicesUpdated: '18 mins ago',
+  lastSyncTimestamp: '2026-08-28T01:10:00Z',
+  activeJurisdiction: 'Western & Central Agro-Climatic Zones (Maharashtra, Punjab, Telangana, Tamil Nadu)',
 };
+
+export interface AiPredictiveInsight {
+  id: string;
+  modelName: string;
+  targetRegion: string;
+  targetCrop: string;
+  pathogen: string;
+  confidenceScore: number;
+  riskProbability: number;
+  timeHorizon: string;
+  meteorologicalTrigger: string;
+  forecastSummary: string;
+  recommendedAction: string;
+  generatedAt: string;
+}
+
+export const MOCK_AI_PREDICTIVE_INSIGHTS: AiPredictiveInsight[] = [
+  {
+    id: 'ai-pred-01',
+    modelName: 'Spatio-Temporal GNN Epidemic Forecaster (v2.4)',
+    targetRegion: 'Niphad & Dindori Blocks (Nashik, Maharashtra)',
+    targetCrop: 'Tomato & Onion',
+    pathogen: 'Phytophthora infestans (Late Blight)',
+    confidenceScore: 94.2,
+    riskProbability: 82.5,
+    timeHorizon: 'Next 48–72 Hours',
+    meteorologicalTrigger: 'Sustained relative humidity >88% & 18°C–22°C microclimate canopy condensation',
+    forecastSummary: 'Atmospheric spore dispersion trajectory indicates 82.5% likelihood of secondary canopy infection spreading east towards adjoining Niphad & Dindori blocks within 72 hours.',
+    recommendedAction: 'Issue preventative bio-fungicide spraying advisories (Mancozeb 2.5g/L / Copper Oxychloride) across 28 adjoining villages before forecasted rainfall surge.',
+    generatedAt: '2026-08-28T00:15:00Z',
+  },
+  {
+    id: 'ai-pred-02',
+    modelName: 'Agro-Climate Vision Forecaster (v1.9)',
+    targetRegion: 'Samrala & Khanna Blocks (Ludhiana, Punjab)',
+    targetCrop: 'Wheat',
+    pathogen: 'Puccinia striiformis (Yellow Rust)',
+    confidenceScore: 91.8,
+    riskProbability: 64.0,
+    timeHorizon: 'Next 5–7 Days',
+    meteorologicalTrigger: 'Morning dew duration >6 hours with moderate daytime temperature rise',
+    forecastSummary: 'Moderate risk of airborne stripe rust spread across wheat canopy corridors in Samrala block if night temperatures remain below 12°C.',
+    recommendedAction: 'Alert block agricultural officers to conduct visual flag-leaf inspections on susceptible HD-2967 and PBW-550 wheat cultivars.',
+    generatedAt: '2026-08-27T22:30:00Z',
+  },
+];
+
