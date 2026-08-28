@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -19,23 +19,47 @@ import {
 } from '@/components/shared';
 
 import { AuditIcon } from '@/components/shared/ui/Icons';
+import { getAdminAuditLogs } from '@/lib/api';
+import { AuditLog } from '@/types';
 import { MOCK_AUDIT_LOGS } from '@/lib/mock';
 import { formatDate } from '@/lib/utils';
 
 export default function AdminAuditLogsPage() {
+  const [logs, setLogs] = useState<AuditLog[]>(MOCK_AUDIT_LOGS);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState('ALL');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [actionFilter, setActionFilter] = useState('ALL');
 
-  const [selectedLog, setSelectedLog] = useState<
-    (typeof MOCK_AUDIT_LOGS)[number] | null
-  >(null);
+  const [selectedLog, setSelectedLog] = useState<AuditLog | null>(null);
+
+  const loadLogs = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      const data = await getAdminAuditLogs();
+      if (data && data.length > 0) {
+        setLogs(data);
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Failed to load audit logs';
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadLogs();
+  }, []);
 
   const filteredLogs = useMemo(() => {
     const query = search.toLowerCase().trim();
 
-    return MOCK_AUDIT_LOGS.filter((log) => {
+    return logs.filter((log) => {
       const matchesSearch =
         !query ||
         log.actorName.toLowerCase().includes(query) ||
@@ -61,7 +85,7 @@ export default function AdminAuditLogsPage() {
         matchesAction
       );
     });
-  }, [search, roleFilter, statusFilter, actionFilter]);
+  }, [logs, search, roleFilter, statusFilter, actionFilter]);
 
   const clearFilters = () => {
     setSearch('');
@@ -69,6 +93,11 @@ export default function AdminAuditLogsPage() {
     setStatusFilter('ALL');
     setActionFilter('ALL');
   };
+
+  const availableActions = useMemo(() => {
+    return Array.from(new Set(logs.map((log) => log.action)));
+  }, [logs]);
+
 
   return (
     <div className="space-y-6">
@@ -96,11 +125,29 @@ export default function AdminAuditLogsPage() {
 
         </div>
 
-        <Badge variant="primary" size="sm">
-          SHA-256 Verified
-        </Badge>
+        <div className="flex items-center gap-2">
+          <Badge variant="primary" size="sm">
+            SHA-256 Verified
+          </Badge>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={loadLogs}
+            disabled={loading}
+          >
+            {loading ? 'Refreshing...' : 'Refresh'}
+          </Button>
+        </div>
 
       </div>
+
+      {/* Error */}
+      {error && (
+        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
 
       {/* Filters */}
       <Card>
@@ -137,9 +184,7 @@ export default function AdminAuditLogsPage() {
             >
               <option value="ALL">All Actions</option>
 
-              {Array.from(
-                new Set(MOCK_AUDIT_LOGS.map((log) => log.action))
-              ).map((action) => (
+              {availableActions.map((action) => (
                 <option key={action} value={action}>
                   {action}
                 </option>
@@ -170,7 +215,9 @@ export default function AdminAuditLogsPage() {
           </div>
 
           <div className="mt-3 text-xs text-slate-500">
-            Showing {filteredLogs.length} of {MOCK_AUDIT_LOGS.length} audit events
+            {loading
+              ? 'Loading audit events...'
+              : `Showing ${filteredLogs.length} of ${logs.length} audit events`}
           </div>
 
         </CardContent>
@@ -222,7 +269,21 @@ export default function AdminAuditLogsPage() {
 
             <TableBody>
 
-              {filteredLogs.length === 0 ? (
+              {loading ? (
+
+                <TableRow>
+
+                  <TableCell colSpan={8}>
+
+                    <div className="py-8 text-center text-sm text-slate-500">
+                      Loading audit events from backend...
+                    </div>
+
+                  </TableCell>
+
+                </TableRow>
+
+              ) : filteredLogs.length === 0 ? (
 
                 <TableRow>
 

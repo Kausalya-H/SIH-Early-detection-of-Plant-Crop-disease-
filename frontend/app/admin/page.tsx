@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -24,6 +26,16 @@ import {
   DiseaseIcon,
 } from '@/components/shared/ui/Icons';
 import {
+  getAdminUsers,
+  getAdminAiModels,
+  getAdminAuditLogs,
+} from '@/lib/api';
+import {
+  SystemUser,
+  AiModelMetric,
+  AuditLog,
+} from '@/types';
+import {
   MOCK_SYSTEM_USERS,
   MOCK_AUDIT_LOGS,
   MOCK_AI_MODELS,
@@ -32,6 +44,32 @@ import {
 import { formatDate } from '@/lib/utils';
 
 export default function AdminPortalHome() {
+  const [users, setUsers] = useState<SystemUser[]>(MOCK_SYSTEM_USERS);
+  const [models, setModels] = useState<AiModelMetric[]>(MOCK_AI_MODELS);
+  const [logs, setLogs] = useState<AuditLog[]>(MOCK_AUDIT_LOGS);
+
+  useEffect(() => {
+    async function loadDashboardData() {
+      const [usersRes, modelsRes, logsRes] = await Promise.allSettled([
+        getAdminUsers(),
+        getAdminAiModels(),
+        getAdminAuditLogs(),
+      ]);
+
+      if (usersRes.status === 'fulfilled' && usersRes.value.length > 0) {
+        setUsers(usersRes.value);
+      }
+      if (modelsRes.status === 'fulfilled' && modelsRes.value.length > 0) {
+        setModels(modelsRes.value);
+      }
+      if (logsRes.status === 'fulfilled' && logsRes.value.length > 0) {
+        setLogs(logsRes.value);
+      }
+    }
+
+    loadDashboardData();
+  }, []);
+
   return (
     <div className="space-y-6">
       {/* Top Banner Notice */}
@@ -67,7 +105,7 @@ export default function AdminPortalHome() {
 
         <StatCard
           title="Registered Officers"
-          value={MOCK_SYSTEM_USERS.length}
+          value={users.length}
           subtitle="Across 28 States & UTs"
           icon={<UsersIcon className="w-5 h-5 text-blue-700" />}
           accentColor="blue"
@@ -85,7 +123,7 @@ export default function AdminPortalHome() {
 
         <StatCard
           title="Audit Log Events"
-          value="1,842"
+          value={logs.length}
           subtitle="All trails cryptographically signed"
           icon={<AuditIcon className="w-5 h-5 text-amber-700" />}
           accentColor="amber"
@@ -122,7 +160,7 @@ export default function AdminPortalHome() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {MOCK_AI_MODELS.map((model) => (
+                  {models.map((model) => (
                     <TableRow key={model.id}>
                       <TableCell>
                         <div className="font-semibold text-slate-900">{model.modelName}</div>
@@ -168,7 +206,7 @@ export default function AdminPortalHome() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {MOCK_AUDIT_LOGS.map((log) => (
+                  {logs.map((log) => (
                     <TableRow key={log.id}>
                       <TableCell className="text-xs text-slate-500 whitespace-nowrap">
                         {formatDate(log.timestamp)}

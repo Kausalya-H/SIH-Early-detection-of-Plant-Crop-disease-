@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -25,20 +25,45 @@ import {
   ShieldIcon,
 } from '@/components/shared/ui/Icons';
 
+import { getAdminAiModels } from '@/lib/api';
+import { AiModelMetric } from '@/types';
 import { MOCK_AI_MODELS } from '@/lib/mock';
 
 export default function AdminAiMonitoringPage() {
-  const [models, setModels] = useState(MOCK_AI_MODELS);
+  const [models, setModels] = useState<AiModelMetric[]>(MOCK_AI_MODELS);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
   const [selectedModel, setSelectedModel] =
-    useState<(typeof MOCK_AI_MODELS)[number] | null>(null);
+    useState<AiModelMetric | null>(null);
 
   const [testingModelId, setTestingModelId] = useState<string | null>(null);
 
   const [lastRefresh, setLastRefresh] = useState(new Date());
+
+  const loadModels = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      const data = await getAdminAiModels();
+      if (data && data.length > 0) {
+        setModels(data);
+      }
+      setLastRefresh(new Date());
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Failed to load AI model metrics';
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadModels();
+  }, []);
 
   const filteredModels = useMemo(() => {
     const query = search.toLowerCase().trim();
@@ -58,15 +83,7 @@ export default function AdminAiMonitoringPage() {
   }, [models, search, statusFilter]);
 
   const refreshTelemetry = () => {
-    setLastRefresh(new Date());
-
-    // Simulate a small telemetry refresh.
-    setModels((currentModels) =>
-      currentModels.map((model) => ({
-        ...model,
-        lastInferenceAt: new Date().toISOString(),
-      }))
-    );
+    loadModels();
   };
 
   const runHealthCheck = (modelId: string) => {
@@ -97,6 +114,7 @@ export default function AdminAiMonitoringPage() {
   const healthyModels = models.filter(
     (model) => model.status === 'HEALTHY'
   ).length;
+
 
   const averageLatency =
     models.length > 0
@@ -154,13 +172,21 @@ export default function AdminAiMonitoringPage() {
             variant="outline"
             size="sm"
             onClick={refreshTelemetry}
+            disabled={loading}
           >
-            Refresh
+            {loading ? 'Refreshing...' : 'Refresh'}
           </Button>
 
         </div>
 
       </div>
+
+      {/* Error */}
+      {error && (
+        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
 
       {/* Model KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -312,7 +338,21 @@ export default function AdminAiMonitoringPage() {
 
             <TableBody>
 
-              {filteredModels.length === 0 ? (
+              {loading ? (
+
+                <TableRow>
+
+                  <TableCell colSpan={9}>
+
+                    <div className="py-8 text-center text-sm text-slate-500">
+                      Loading AI models from backend...
+                    </div>
+
+                  </TableCell>
+
+                </TableRow>
+
+              ) : filteredModels.length === 0 ? (
 
                 <TableRow>
 
