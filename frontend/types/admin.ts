@@ -55,3 +55,18 @@ export interface AiModelMetric {
   totalInferencesToday: number;
   failedInferencesToday: number;
 }
+
+export interface AdminSettings {
+  humidityThreshold: number;
+  clusterRadius: number;
+  aiConfidence: number;
+}
+
+export interface NotificationGateway {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  lastPingAt?: string;
+}
+
