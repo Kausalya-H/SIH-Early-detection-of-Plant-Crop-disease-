@@ -22,6 +22,7 @@ The platform combines:
 - 🗣️ NLP and Multilingual Support
 - 📊 Predictive Analytics
 - 🔔 Early Warning and Advisory Systems
+- 📴 Offline AI inference using TensorFlow
 
 The current implementation focuses on **AI-based image analysis and tomato disease detection**, with the architecture designed to support additional crops and intelligent agricultural services.
 
@@ -95,6 +96,12 @@ The system analyzes uploaded crop images using trained deep-learning models to i
 ### 🍅 Tomato Disease Detection
 
 The current implementation includes a tomato crop disease detection pipeline.
+
+### 📴 Offline Disease Detection
+
+The platform is designed to support **offline disease detection**, allowing disease prediction without requiring a continuous internet connection. For offline inference, a locally available trained model can process the uploaded crop image directly on the device.
+
+The offline inference component uses **TensorFlow** to run the trained model locally, reducing dependency on network connectivity and improving accessibility for farmers in areas with limited or unreliable internet access.
 
 ### 📊 Confidence-Based Prediction
 
@@ -193,6 +200,52 @@ yolo11n.pt
 ```
 
 The backend disease detection service loads the trained model and performs inference on an uploaded image.
+
+### Prediction Pipeline
+
+#### Online Mode
+
+```text
+Crop Image
+    │
+    ▼
+Frontend
+    │
+    ▼
+Backend API
+    │
+    ▼
+YOLO Model
+    │
+    ▼
+Disease Prediction
+    │
+    ▼
+Result + Confidence
+```
+
+#### Offline Mode
+
+```text
+Crop Image
+    │
+    ▼
+Local Application
+    │
+    ▼
+TensorFlow Model
+    │
+    ▼
+Local Inference
+    │
+    ▼
+Disease Prediction
+    │
+    ▼
+Result + Confidence
+```
+
+The offline workflow enables disease detection even when internet connectivity is unavailable or unreliable.
 
 ### Prediction Pipeline
 
@@ -371,9 +424,9 @@ SIH-Early-detection-of-Plant-Crop-disease-/
 |---|---|
 | Frontend | React.js, JavaScript, HTML, CSS |
 | Backend | Python, FastAPI |
-| AI/ML | YOLO, Deep Learning, Computer Vision |
+| AI/ML | YOLO, TensorFlow, Deep Learning, Computer Vision |
 | NLP | Natural Language Processing |
-| Model | YOLO-based classification/detection |
+| Model | YOLO-based classification/detection + TensorFlow offline inference |
 | API | REST API |
 | Version Control | Git, GitHub |
 | Development | Visual Studio Code |
@@ -706,6 +759,7 @@ For production deployment, the following measures can be incorporated:
 - 🔄 Agricultural authority dashboard
 - 🔄 Cloud deployment
 - 🔄 Advanced predictive analytics
+- 🔄 Expanded offline model support for additional crops
 
 ---
 
