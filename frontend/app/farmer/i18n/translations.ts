@@ -41,14 +41,14 @@ export const SUPPORTED_LANGUAGES: SupportedLanguageInfo[] = [
   { code: 'ks', name: 'Kashmiri', nativeName: 'कॉशुर (كٲشُر)', desc: 'کٲشُر زبان' },
   { code: 'kok', name: 'Konkani', nativeName: 'कोंकणी', desc: 'कोंकणी भास' },
   { code: 'mai', name: 'Maithili', nativeName: 'मैथिली', desc: 'मैथिली भाषा' },
-  { code: 'ml', name: 'Malayalam', nativeName: 'മലയാളം', desc: 'മലയാളം ഇന്റർഫേസ്' },
+  { code: 'ml', name: 'Malayalam', nativeName: 'മലയാളം', desc: 'മലയാളം ഇന്റർഫೇಸ್' },
   { code: 'mni', name: 'Manipuri', nativeName: 'মৈতৈলোন্ (Manipuri)', desc: 'মৈতৈলোন্' },
   { code: 'ne', name: 'Nepali', nativeName: 'नेपाली', desc: 'नेपाली भाषा' },
   { code: 'or', name: 'Odia', nativeName: 'ଓଡ଼ିଆ', desc: 'ଓଡ଼ିଆ ଇଣ୍ଟରଫେସ' },
   { code: 'pa', name: 'Punjabi', nativeName: 'ਪੰਜਾਬੀ', desc: 'ਪੰਜਾਬੀ ਇੰਟਰਫੇਸ' },
   { code: 'sat', name: 'Santhali', nativeName: 'संथाली (ᱥᱟᱱᱛᱟᱲᱤ)', desc: 'ᱥᱟᱱᱛᱟᱲᱤ ᱯᱟᱹᱨᱥᱤ' },
   { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்', desc: 'தமிழ் இடைமுகம்' },
-  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు', desc: 'తెలుగు ఇంటర్ఫేస్' },
+  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు', desc: 'తెలుగు ఇంటర్ఫೇಸ್' },
   { code: 'ur', name: 'Urdu', nativeName: 'اردو', desc: 'اردو انٹرفیس' },
 ];
 
@@ -80,7 +80,25 @@ export interface TranslationDict {
     recentDiagnosesTitle: string;
     activeAlertsTitle: string;
     viewAll: string;
+    aiInsightTitle?: string;
+    aiInsightDisclaimer?: string;
+    scanCTA?: string;
+    scanSubCTA?: string;
+    recentScans?: string;
+    viewAllScans?: string;
+    weatherTitle?: string;
+    diseaseRisk?: string;
+    humidity?: string;
+    rainfallChance?: string;
+    [key: string]: any;
   };
+  farms?: Record<string, any>;
+  scan?: Record<string, any>;
+  advisory?: Record<string, any>;
+  profile?: Record<string, any>;
+  officerModal?: Record<string, any>;
+  common?: Record<string, any>;
+  [key: string]: any;
 }
 
 const enDict: TranslationDict = {
@@ -111,6 +129,83 @@ const enDict: TranslationDict = {
     recentDiagnosesTitle: 'Recent Disease Diagnoses',
     activeAlertsTitle: 'Active Outbreak & Weather Alerts',
     viewAll: 'View All',
+    aiInsightTitle: 'AI Pathology Insight',
+    aiInsightDisclaimer: 'AI predictions assist early screening. Always verify with your local KVK extension officer.',
+    scanCTA: 'Start New Leaf Scan',
+    scanSubCTA: 'Upload or capture a leaf photo for instant computer vision analysis',
+    recentScans: 'Recent Crop Scans',
+    viewAllScans: 'View All Scans',
+    weatherTitle: 'Local Agricultural Weather',
+    diseaseRisk: 'Disease Risk Forecast',
+    humidity: 'Humidity',
+    rainfallChance: 'Rainfall Probability',
+  },
+  farms: {
+    title: 'My Registered Farms',
+    subtitle: 'Manage your plots and crops',
+    addFarm: 'Register New Plot',
+    searchPlaceholder: 'Search farms by name, crop or location...',
+    area: 'Area',
+    acres: 'Acres',
+    cropStage: 'Growth Stage',
+    lastScan: 'Last Health Scan',
+    viewDetails: 'View Plot Details',
+    healthy: 'Healthy',
+    underWatch: 'Under Watch',
+    affected: 'Affected',
+  },
+  scan: {
+    title: 'AI Crop Disease Detection',
+    subtitle: 'Upload or capture a leaf photo for instant computer vision pathology diagnosis',
+    uploadPrompt: 'Upload or capture leaf photo',
+    browse: 'Browse Image File',
+    analyzing: 'Analyzing Crop Leaf Pathology...',
+    step1: '1. Preprocessing image contrast & leaf segmentation',
+    step2: '2. Scanning lesion morphology & fungal spore markers',
+    step3: '3. Compiling approved CIB&RC treatment advisory',
+    confidence: 'Model Confidence',
+    symptoms: 'Observed Symptoms',
+    treatment: 'Recommended Treatment',
+    downloadPdf: 'Download Official PDF Health Report',
+    selectCrop: 'Crop Specimen Type',
+    selectFarm: 'Target Farm / Plot',
+  },
+  advisory: {
+    title: 'Regional Agricultural Advisories',
+    subtitle: 'Seasonal weather warnings & crop management protocols',
+    viewAll: 'View All Advisories',
+    highPriority: 'High Priority',
+  },
+  profile: {
+    title: 'Farmer Profile & Settings',
+    subtitle: 'Manage your account and preferences',
+    personalInfo: 'Personal Information',
+    fullName: 'Full Name',
+    phone: 'Mobile Number',
+    email: 'Email Address',
+    location: 'Village & District',
+    language: 'Preferred Language',
+    notifications: 'Notification Channels',
+    save: 'Save Preferences',
+  },
+  officerModal: {
+    title: 'Request KVK Officer Assistance',
+    subtitle: 'Connect with your block agricultural extension officer',
+    problemCategory: 'Problem Category',
+    urgencyLevel: 'Urgency Level',
+    notes: 'Field Observations & Description',
+    submit: 'Submit Request',
+    successTitle: 'Assistance Request Registered',
+    successMessage: 'Your issue has been forwarded to the extension officer. They will review and call you.',
+    close: 'Close',
+  },
+  common: {
+    save: 'Save',
+    cancel: 'Cancel',
+    loading: 'Loading...',
+    error: 'An error occurred',
+    retry: 'Retry',
+    close: 'Close',
   },
 };
 
@@ -142,7 +237,23 @@ const hiDict: TranslationDict = {
     recentDiagnosesTitle: 'हाल के रोग निदान',
     activeAlertsTitle: 'सक्रिय प्रकोप और मौसम अलर्ट',
     viewAll: 'सभी देखें',
+    aiInsightTitle: 'एआई पैथोलॉजी इनसाइट',
+    aiInsightDisclaimer: 'एआई पूर्वानुमान प्रारंभिक जांच में सहायता करते हैं। स्थानीय केवीके विस्तार अधिकारी से सलाह लें।',
+    scanCTA: 'नई पत्ती स्कैन करें',
+    scanSubCTA: 'त्वरित कंप्यूटर विज़न विश्लेषण के लिए पत्ती की फोटो अपलोड करें',
+    recentScans: 'हाल के स्कैन',
+    viewAllScans: 'सभी स्कैन देखें',
+    weatherTitle: 'स्थानीय कृषि मौसम',
+    diseaseRisk: 'रोग जोखिम पूर्वानुमान',
+    humidity: 'आर्द्रता',
+    rainfallChance: 'वर्षा की संभावना',
   },
+  farms: enDict.farms,
+  scan: enDict.scan,
+  advisory: enDict.advisory,
+  profile: enDict.profile,
+  officerModal: enDict.officerModal,
+  common: enDict.common,
 };
 
 const mrDict: TranslationDict = {
@@ -173,7 +284,23 @@ const mrDict: TranslationDict = {
     recentDiagnosesTitle: 'अलीकडील पीक रोग निदान',
     activeAlertsTitle: 'सक्रिय प्रादुर्भाव व हवामान सूचना',
     viewAll: 'सर्व पहा',
+    aiInsightTitle: 'एआय रोग निदान इनसाइट',
+    aiInsightDisclaimer: 'एआय भाकिते प्राथमिक तपासणीसाठी आहेत. नेहमी स्थानिक कृषी अधिकाऱ्यांचा सल्ला घ्या.',
+    scanCTA: 'नवीन पान स्कॅन करा',
+    scanSubCTA: 'तत्काळ संगणक दृष्टी विश्लेषणासाठी फोटो अपलोड करा',
+    recentScans: 'अलीकडील स्कॅन',
+    viewAllScans: 'सर्व स्कॅन पहा',
+    weatherTitle: 'स्थानिक कृषी हवामान',
+    diseaseRisk: 'रोग जोखीम अंदाज',
+    humidity: 'हवेतील आर्द्रता',
+    rainfallChance: 'पावसाची शक्यता',
   },
+  farms: enDict.farms,
+  scan: enDict.scan,
+  advisory: enDict.advisory,
+  profile: enDict.profile,
+  officerModal: enDict.officerModal,
+  common: enDict.common,
 };
 
 export const translations: Record<Language, TranslationDict> = {

@@ -3,9 +3,10 @@ import { HealthStatus } from '../../types/farmer';
 
 interface StatusBadgeProps {
   status: HealthStatus | string;
+  size?: 'sm' | 'md' | 'lg' | string;
 }
 
-export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
+export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'sm' }) => {
   const config = {
     HEALTHY: {
       label: 'Healthy',

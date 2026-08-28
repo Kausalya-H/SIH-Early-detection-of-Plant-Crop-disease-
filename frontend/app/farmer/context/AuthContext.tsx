@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { FarmerProfile } from '../types/farmer';
 import { initialMockFarmer } from '../data/mockFarmer';
+import { farmerService } from '../services/farmerService';
 
 interface AuthContextType {
   user: FarmerProfile | null;
@@ -8,6 +9,7 @@ interface AuthContextType {
   login: (phoneOrEmail: string, name?: string) => Promise<boolean>;
   logout: () => void;
   updateProfile: (updated: Partial<FarmerProfile>) => Promise<void>;
+  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,6 +36,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   useEffect(() => {
+    // Initial fetch from backend/service
+    farmerService.getProfile().then((profile) => {
+      setUser(profile);
+      localStorage.setItem('farmer_portal_user', JSON.stringify(profile));
+    });
+  }, []);
+
+  useEffect(() => {
     if (user) {
       localStorage.setItem('farmer_portal_user', JSON.stringify(user));
     } else {
@@ -48,7 +58,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email: phoneOrEmail.includes('@') ? phoneOrEmail : initialMockFarmer.email,
       name: name || initialMockFarmer.name,
     };
-    setUser(loggedInFarmer);
+    const saved = await farmerService.updateProfile(loggedInFarmer);
+    setUser(saved);
     return true;
   };
 
@@ -57,13 +68,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const updateProfile = async (updated: Partial<FarmerProfile>) => {
-    if (!user) return;
-    const newUser = { ...user, ...updated };
-    setUser(newUser);
+    const saved = await farmerService.updateProfile(updated);
+    setUser(saved);
+  };
+
+  const refreshProfile = async () => {
+    const latest = await farmerService.getProfile();
+    setUser(latest);
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, updateProfile }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, updateProfile, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   );

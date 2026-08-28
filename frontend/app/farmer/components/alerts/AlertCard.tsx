@@ -17,11 +17,14 @@ interface AlertCardProps {
 }
 
 export const AlertCard: React.FC<AlertCardProps> = ({ alert, onMarkRead }) => {
-  const categoryIcons = {
+  const categoryIcons: Record<string, React.ReactNode> = {
     DISEASE_OUTBREAK: <AlertOctagon className="h-5 w-5 text-red-600" />,
     PEST_WARNING: <AlertTriangle className="h-5 w-5 text-amber-600" />,
+    PEST_SURGE: <AlertTriangle className="h-5 w-5 text-amber-600" />,
     WEATHER_RISK: <CloudRain className="h-5 w-5 text-blue-600" />,
+    WEATHER_WARNING: <CloudRain className="h-5 w-5 text-blue-600" />,
     OFFICER_MESSAGE: <UserCheck className="h-5 w-5 text-agri-700" />,
+    OFFICER_ADVISORY: <UserCheck className="h-5 w-5 text-agri-700" />,
     ADVISORY_UPDATE: <BookOpen className="h-5 w-5 text-purple-600" />,
   };
 
@@ -46,7 +49,7 @@ export const AlertCard: React.FC<AlertCardProps> = ({ alert, onMarkRead }) => {
             <div className="flex flex-wrap items-center gap-2 mb-1">
               <RiskBadge level={alert.severity} size="sm" />
               <span className="text-xs font-semibold text-slate-500">
-                {alert.region} • {alert.district}
+                {alert.region || alert.taluka || 'Baramati'} • {alert.district}
               </span>
               {!alert.isRead && (
                 <span className="rounded-full bg-agri-600 px-2 py-0.5 text-[10px] font-bold text-white uppercase">
@@ -74,7 +77,7 @@ export const AlertCard: React.FC<AlertCardProps> = ({ alert, onMarkRead }) => {
       </div>
 
       <div className="py-3 space-y-3 text-xs sm:text-sm text-slate-700">
-        <p className="leading-relaxed">{alert.description}</p>
+        <p className="leading-relaxed">{alert.description || alert.message}</p>
 
         {/* Action Required Box */}
         <div className="rounded-xl bg-amber-50/90 p-3 border border-amber-200/90 text-xs text-amber-950 font-medium space-y-1">
@@ -103,9 +106,9 @@ export const AlertCard: React.FC<AlertCardProps> = ({ alert, onMarkRead }) => {
       <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-xs text-slate-400">
         <div className="flex items-center gap-1.5">
           <Calendar className="h-3.5 w-3.5" />
-          <span>{new Date(alert.createdAt).toLocaleString()}</span>
+          <span>{alert.createdAt || alert.issueDate}</span>
         </div>
-        <span className="truncate max-w-[200px] italic">{alert.source}</span>
+        <span className="truncate max-w-[200px] italic">{alert.source || alert.issuedBy}</span>
       </div>
     </div>
   );

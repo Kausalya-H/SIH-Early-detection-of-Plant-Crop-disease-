@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
-import { MapPin, Sun, CloudRain, Droplets, Sparkles } from 'lucide-react';
+import { farmerService } from '../../services/farmerService';
+import { MapPin, Sun, CloudRain, Droplets, Sparkles, Activity, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const WelcomeBanner: React.FC = () => {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const [backendStatus, setBackendStatus] = useState<{ online: boolean; status: string }>({
+    online: false,
+    status: 'checking',
+  });
+
+  useEffect(() => {
+    farmerService.checkHealth().then(setBackendStatus);
+  }, []);
 
   return (
     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-agri-800 via-agri-700 to-agri-900 p-6 sm:p-8 text-white shadow-xl shadow-agri-950/15">
@@ -16,9 +25,26 @@ export const WelcomeBanner: React.FC = () => {
 
       <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div className="space-y-3 max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full bg-agri-600/70 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-agri-100 backdrop-blur-md border border-agri-400/30">
-            <Sparkles className="h-3.5 w-3.5 text-amber-300" />
-            <span>AI-Assisted Field Protection Grid</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center gap-2 rounded-full bg-agri-600/70 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-agri-100 backdrop-blur-md border border-agri-400/30">
+              <Sparkles className="h-3.5 w-3.5 text-amber-300" />
+              <span>AI-Assisted Field Protection Grid</span>
+            </div>
+
+            <div
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur-md border ${
+                backendStatus.online
+                  ? 'bg-emerald-500/30 text-emerald-200 border-emerald-400/40'
+                  : 'bg-stone-600/40 text-stone-200 border-stone-400/30'
+              }`}
+            >
+              <span
+                className={`h-2 w-2 rounded-full ${
+                  backendStatus.online ? 'bg-emerald-400 animate-pulse' : 'bg-stone-400'
+                }`}
+              />
+              <span>FastAPI Backend: {backendStatus.online ? 'Online' : 'Offline / Standby'}</span>
+            </div>
           </div>
 
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">

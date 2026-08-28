@@ -11,5 +11,19 @@ export default defineConfig({
   },
   server: {
     host: true,
+    proxy: {
+      '/farmers': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/disease': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/health': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+    },
   },
 });

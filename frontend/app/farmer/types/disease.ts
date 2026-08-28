@@ -7,6 +7,20 @@ export interface TreatmentRecommendation {
   safetyPrecautions: string[];
 }
 
+export interface BackendPredictResponse {
+  crop: string;
+  disease: string;
+  confidence: number;
+  severity?: string;
+  warning_signs?: string[];
+  advice?: string;
+  treatment?: string;
+  active_ingredient?: string;
+  application?: string;
+  safety_note?: string;
+  message?: string;
+}
+
 export interface DiagnosisRecord {
   id: string;
   farmId: string;
@@ -23,4 +37,15 @@ export interface DiagnosisRecord {
   treatment: TreatmentRecommendation;
   status: 'REVIEWED' | 'ACTION_TAKEN' | 'PENDING' | 'RESOLVED';
   officerNotes?: string;
+
+  // Backend direct response fields
+  severity?: string;
+  warning_signs?: string[];
+  advice?: string;
+  treatmentText?: string;
+  active_ingredient?: string;
+  application?: string;
+  safety_note?: string;
+  message?: string;
+  isLiveBackendResult?: boolean;
 }

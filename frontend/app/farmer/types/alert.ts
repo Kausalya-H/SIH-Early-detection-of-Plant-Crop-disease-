@@ -9,10 +9,15 @@ export interface CropAlert {
   affectedCrops: string[];
   district: string;
   taluka?: string;
+  region?: string;
   issueDate: string;
+  createdAt?: string;
   validUntil: string;
   message: string;
+  description?: string;
   actionRequired: string;
+  recommendations?: string[];
   isRead: boolean;
   issuedBy: string;
+  source?: string;
 }
