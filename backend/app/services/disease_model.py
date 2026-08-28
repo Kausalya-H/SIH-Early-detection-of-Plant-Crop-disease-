@@ -12,6 +12,14 @@ model = YOLO(str(MODEL_PATH))
 
 
 def predict_disease_image(image_path: str):
+    """
+    Predict tomato disease from an uploaded image.
+
+    Returns:
+        disease: predicted disease name
+        confidence: prediction confidence
+    """
+
     results = model.predict(
         source=image_path,
         imgsz=224,
@@ -24,6 +32,7 @@ def predict_disease_image(image_path: str):
     confidence = result.probs.top1conf.item()
     class_name = result.names[top1_index]
 
+    # Convert YOLO class name to cleaner disease name
     disease = (
         class_name
         .replace("Tomato___", "")
