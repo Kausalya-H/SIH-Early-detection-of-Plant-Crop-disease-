@@ -22,9 +22,9 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["app/farmer/*"]
     }
   },
-  "include": ["src"],
+  "include": ["app/farmer"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
