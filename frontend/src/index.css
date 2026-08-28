@@ -3,59 +3,33 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    -webkit-tap-highlight-color: transparent;
-    scroll-behavior: smooth;
-  }
-  
   body {
-    @apply bg-stone-50 text-slate-800 antialiased selection:bg-agri-200 selection:text-agri-900;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-  }
-
-  /* Accessible focus indicators */
-  :focus-visible {
-    @apply outline-2 outline-offset-2 outline-agri-600 ring-2 ring-agri-500/30;
+    @apply bg-stone-50 text-slate-900 antialiased selection:bg-agri-200 selection:text-agri-900;
   }
 }
 
 @layer components {
+  .card {
+    @apply rounded-2xl bg-white border border-stone-200/90 shadow-card transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-card-hover hover:border-stone-300;
+  }
+
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-agri-600 px-5 py-3 text-base font-semibold text-white shadow-md transition-all hover:bg-agri-700 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-agri-700 px-4 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-agri-800 active:bg-agri-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-white border border-stone-200 px-5 py-3 text-base font-semibold text-slate-700 shadow-sm transition-all hover:bg-stone-50 hover:border-stone-300 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-xs hover:bg-stone-50 active:bg-stone-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all;
   }
 
-  .btn-earth {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-earth-600 px-5 py-3 text-base font-semibold text-white shadow-md transition-all hover:bg-earth-700 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
-  }
-
-  .card {
-    @apply rounded-2xl bg-white p-5 border border-stone-200/80 shadow-card transition-shadow hover:shadow-card-hover;
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-agri-600 bg-transparent px-4 py-2.5 text-sm font-semibold text-agri-700 hover:bg-agri-50 active:bg-agri-100 transition-all;
   }
 
   .input-field {
-    @apply w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-base text-slate-800 placeholder-slate-400 transition-colors focus:border-agri-600 focus:outline-none focus:ring-2 focus:ring-agri-500/20 disabled:bg-stone-100;
+    @apply w-full rounded-xl border border-stone-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-agri-600 focus:outline-none focus:ring-2 focus:ring-agri-500/20 transition-all;
   }
-}
-
-/* Custom scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f5f5f4;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #d6d3d1;
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a29e;
 }

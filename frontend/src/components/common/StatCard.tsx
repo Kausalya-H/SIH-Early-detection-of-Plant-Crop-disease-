@@ -3,49 +3,90 @@ import React from 'react';
 interface StatCardProps {
   title: string;
   value: string | number;
-  subtitle?: string;
   icon: React.ReactNode;
-  variant?: 'default' | 'success' | 'warning' | 'danger';
-  onClick?: () => void;
+  subtitle?: string;
+  trend?: {
+    value: string;
+    isPositive?: boolean;
+  };
+  colorScheme?: 'green' | 'blue' | 'amber' | 'orange' | 'rose' | 'emerald';
 }
 
 export const StatCard: React.FC<StatCardProps> = ({
   title,
   value,
-  subtitle,
   icon,
-  variant = 'default',
-  onClick,
+  subtitle,
+  trend,
+  colorScheme = 'emerald',
 }) => {
-  const variantStyles = {
-    default: 'bg-white border-stone-200/80 text-slate-800',
-    success: 'bg-emerald-50/50 border-emerald-200 text-emerald-950',
-    warning: 'bg-amber-50/50 border-amber-200 text-amber-950',
-    danger: 'bg-red-50/50 border-red-200 text-red-950',
-  };
-
-  const iconBgStyles = {
-    default: 'bg-stone-100 text-slate-700',
-    success: 'bg-emerald-100 text-emerald-700',
-    warning: 'bg-amber-100 text-amber-700',
-    danger: 'bg-red-100 text-red-700',
-  };
+  const colorStyles = {
+    green: {
+      bg: 'bg-emerald-50/80',
+      text: 'text-emerald-700',
+      border: 'border-emerald-200/80',
+      iconBg: 'bg-emerald-100 text-emerald-700',
+    },
+    emerald: {
+      bg: 'bg-emerald-50/80',
+      text: 'text-emerald-700',
+      border: 'border-emerald-200/80',
+      iconBg: 'bg-emerald-100 text-emerald-800',
+    },
+    blue: {
+      bg: 'bg-blue-50/80',
+      text: 'text-blue-700',
+      border: 'border-blue-200/80',
+      iconBg: 'bg-blue-100 text-blue-700',
+    },
+    amber: {
+      bg: 'bg-amber-50/80',
+      text: 'text-amber-700',
+      border: 'border-amber-200/80',
+      iconBg: 'bg-amber-100 text-amber-700',
+    },
+    orange: {
+      bg: 'bg-orange-50/80',
+      text: 'text-orange-700',
+      border: 'border-orange-200/80',
+      iconBg: 'bg-orange-100 text-orange-700',
+    },
+    rose: {
+      bg: 'bg-rose-50/80',
+      text: 'text-rose-700',
+      border: 'border-rose-200/80',
+      iconBg: 'bg-rose-100 text-rose-700',
+    },
+  }[colorScheme];
 
   return (
-    <div
-      onClick={onClick}
-      className={`card flex items-start justify-between border ${variantStyles[variant]} ${
-        onClick ? 'cursor-pointer hover:border-agri-400' : ''
-      }`}
-    >
-      <div>
-        <p className="text-sm font-medium text-slate-500">{title}</p>
-        <p className="mt-1.5 text-2xl font-bold tracking-tight sm:text-3xl">{value}</p>
-        {subtitle && <p className="mt-1 text-xs text-slate-500">{subtitle}</p>}
+    <div className="card p-5 sm:p-6 card-hover flex flex-col justify-between">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <p className="text-xs sm:text-sm font-medium text-slate-500">{title}</p>
+          <h3 className={`mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight ${colorStyles.text}`}>
+            {value}
+          </h3>
+        </div>
+        <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${colorStyles.iconBg} shadow-xs shrink-0`}>
+          {icon}
+        </div>
       </div>
-      <div className={`rounded-xl p-3 ${iconBgStyles[variant]} shrink-0`} aria-hidden="true">
-        {icon}
-      </div>
+
+      {(subtitle || trend) && (
+        <div className="mt-4 flex items-center justify-between text-xs text-slate-500 pt-3 border-t border-stone-100">
+          {subtitle && <span>{subtitle}</span>}
+          {trend && (
+            <span
+              className={`font-semibold ml-auto ${
+                trend.isPositive ? 'text-emerald-600' : 'text-rose-600'
+              }`}
+            >
+              {trend.value}
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 };

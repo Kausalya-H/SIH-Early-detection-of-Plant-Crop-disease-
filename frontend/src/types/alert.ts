@@ -1,11 +1,5 @@
-export type AlertSeverity = 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
-
-export type AlertCategory = 
-  | 'DISEASE_OUTBREAK' 
-  | 'PEST_WARNING' 
-  | 'WEATHER_RISK' 
-  | 'OFFICER_MESSAGE' 
-  | 'ADVISORY_UPDATE';
+export type AlertSeverity = 'INFO' | 'MODERATE' | 'HIGH' | 'CRITICAL';
+export type AlertCategory = 'DISEASE_OUTBREAK' | 'PEST_SURGE' | 'WEATHER_WARNING' | 'OFFICER_ADVISORY';
 
 export interface CropAlert {
   id: string;
@@ -13,12 +7,12 @@ export interface CropAlert {
   category: AlertCategory;
   severity: AlertSeverity;
   affectedCrops: string[];
-  region: string;
   district: string;
-  description: string;
+  taluka?: string;
+  issueDate: string;
+  validUntil: string;
+  message: string;
   actionRequired: string;
-  createdAt: string;
   isRead: boolean;
-  expiresAt?: string;
-  source: string; // e.g. "Regional Agriculture Department, Maharashtra"
+  issuedBy: string;
 }

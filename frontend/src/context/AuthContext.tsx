@@ -30,7 +30,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error('Failed to parse saved user', e);
       }
     }
-    // Default demo logged-in farmer
     return initialMockFarmer;
   });
 
@@ -43,7 +42,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [user]);
 
   const login = async (phoneOrEmail: string, name?: string): Promise<boolean> => {
-    // In production, this calls backend auth endpoints
     const loggedInFarmer: FarmerProfile = {
       ...initialMockFarmer,
       phone: phoneOrEmail.includes('@') ? initialMockFarmer.phone : phoneOrEmail,

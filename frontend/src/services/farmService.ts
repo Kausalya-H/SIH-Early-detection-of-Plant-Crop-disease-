@@ -1,22 +1,16 @@
 import { Farm } from '../types/farmer';
 import { mockFarms } from '../data/mockFarms';
-import { USE_MOCK_DATA, ENDPOINTS } from './apiConfig';
-import { apiRequest } from './apiClient';
 
-const LOCAL_STORAGE_FARMS_KEY = 'farmer_portal_farms';
+const LOCAL_STORAGE_FARMS_KEY = 'farmer_portal_farms_v2';
 
 export const farmService = {
   async getFarms(): Promise<Farm[]> {
-    if (!USE_MOCK_DATA) {
-      const res = await apiRequest<Farm[]>(ENDPOINTS.FARMS);
-      if (res.data) return res.data;
-    }
     const saved = localStorage.getItem(LOCAL_STORAGE_FARMS_KEY);
     if (saved) {
       try {
         return JSON.parse(saved);
       } catch (e) {
-        console.error('Failed to parse cached farms', e);
+        console.error('Failed to parse farms', e);
       }
     }
     localStorage.setItem(LOCAL_STORAGE_FARMS_KEY, JSON.stringify(mockFarms));
@@ -36,18 +30,8 @@ export const farmService = {
       totalScansCount: 0,
       createdAt: new Date().toISOString().split('T')[0],
     };
-    const updatedFarms = [newFarm, ...farms];
-    localStorage.setItem(LOCAL_STORAGE_FARMS_KEY, JSON.stringify(updatedFarms));
+    const updated = [newFarm, ...farms];
+    localStorage.setItem(LOCAL_STORAGE_FARMS_KEY, JSON.stringify(updated));
     return newFarm;
   },
-
-  async updateFarm(id: string, updates: Partial<Farm>): Promise<Farm | null> {
-    const farms = await this.getFarms();
-    const index = farms.findIndex((f) => f.id === id);
-    if (index === -1) return null;
-
-    farms[index] = { ...farms[index], ...updates };
-    localStorage.setItem(LOCAL_STORAGE_FARMS_KEY, JSON.stringify(farms));
-    return farms[index];
-  }
 };

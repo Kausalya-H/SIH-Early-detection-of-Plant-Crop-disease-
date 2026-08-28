@@ -1,72 +1,50 @@
 import React from 'react';
-import { RiskLevel } from '../../types/scan';
-import { AlertTriangle, CheckCircle2, AlertOctagon, Info } from 'lucide-react';
-import { useLanguage } from '../../context/LanguageContext';
+import { RiskLevel } from '../../types/disease';
 
 interface RiskBadgeProps {
   level: RiskLevel;
   size?: 'sm' | 'md' | 'lg';
-  showIcon?: boolean;
-  className?: string;
 }
 
-export const RiskBadge: React.FC<RiskBadgeProps> = ({
-  level,
-  size = 'md',
-  showIcon = true,
-  className = '',
-}) => {
-  const { t } = useLanguage();
-
-  const configs: Record<
-    RiskLevel,
-    { label: string; bg: string; text: string; border: string; icon: React.ReactNode }
-  > = {
+export const RiskBadge: React.FC<RiskBadgeProps> = ({ level, size = 'sm' }) => {
+  const config = {
     LOW: {
-      label: t.risk.low,
-      bg: 'bg-emerald-50',
-      text: 'text-emerald-800',
-      border: 'border-emerald-200',
-      icon: <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />,
+      label: 'LOW RISK',
+      bg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      dot: 'bg-emerald-500',
     },
     MODERATE: {
-      label: t.risk.moderate,
-      bg: 'bg-amber-50',
-      text: 'text-amber-900',
-      border: 'border-amber-300',
-      icon: <Info className="w-4 h-4 text-amber-700 shrink-0" aria-hidden="true" />,
+      label: 'MODERATE RISK',
+      bg: 'bg-amber-50 text-amber-700 border-amber-200',
+      dot: 'bg-amber-500',
     },
     HIGH: {
-      label: t.risk.high,
-      bg: 'bg-orange-50',
-      text: 'text-orange-950',
-      border: 'border-orange-300',
-      icon: <AlertTriangle className="w-4 h-4 text-orange-700 shrink-0" aria-hidden="true" />,
+      label: 'HIGH RISK',
+      bg: 'bg-orange-50 text-orange-700 border-orange-200',
+      dot: 'bg-orange-500',
     },
     CRITICAL: {
-      label: t.risk.critical,
-      bg: 'bg-red-50',
-      text: 'text-red-950',
-      border: 'border-red-300 ring-1 ring-red-400',
-      icon: <AlertOctagon className="w-4 h-4 text-red-700 shrink-0" aria-hidden="true" />,
+      label: 'CRITICAL RISK',
+      bg: 'bg-rose-50 text-rose-700 border-rose-200',
+      dot: 'bg-rose-500',
     },
+  }[level] || {
+    label: level,
+    bg: 'bg-stone-50 text-stone-700 border-stone-200',
+    dot: 'bg-stone-500',
   };
 
-  const config = configs[level] || configs.LOW;
-
-  const sizeClasses = {
-    sm: 'text-xs px-2.5 py-0.5 gap-1',
-    md: 'text-sm px-3 py-1 gap-1.5 font-medium',
-    lg: 'text-base px-4 py-2 gap-2 font-semibold',
-  };
+  const sizeClass = {
+    sm: 'px-2 py-0.5 text-xs',
+    md: 'px-2.5 py-1 text-xs',
+    lg: 'px-3 py-1.5 text-sm',
+  }[size];
 
   return (
     <span
-      className={`inline-flex items-center rounded-full border ${config.bg} ${config.text} ${config.border} ${sizeClasses[size]} ${className}`}
-      role="status"
-      aria-label={`Risk Level: ${config.label}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border font-bold uppercase tracking-wider ${config.bg} ${sizeClass}`}
     >
-      {showIcon && config.icon}
+      <span className={`h-1.5 w-1.5 rounded-full ${config.dot}`} />
       <span>{config.label}</span>
     </span>
   );

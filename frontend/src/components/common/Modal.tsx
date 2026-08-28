@@ -34,41 +34,36 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (!isOpen) return null;
 
-  const maxWidthClasses = {
+  const maxWidthClass = {
     sm: 'max-w-sm',
     md: 'max-w-md',
     lg: 'max-w-lg',
     xl: 'max-w-xl',
     '2xl': 'max-w-2xl',
-  };
+  }[maxWidth];
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
-      role="dialog"
-      aria-modal="true"
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
         onClick={onClose}
-        aria-hidden="true"
       />
 
-      {/* Modal Card */}
+      {/* Modal Container */}
       <div
-        className={`relative w-full ${maxWidthClasses[maxWidth]} rounded-2xl bg-white p-6 shadow-2xl transition-all border border-stone-200 my-8`}
+        className={`relative w-full ${maxWidthClass} rounded-3xl bg-white p-6 shadow-2xl transition-all border border-stone-200 z-10`}
       >
-        <div className="flex items-start justify-between pb-4 border-b border-stone-100">
+        <div className="flex items-start justify-between gap-4 pb-4 border-b border-stone-100">
           <div>
             <h2 className="text-xl font-bold text-slate-900">{title}</h2>
-            {subtitle && <p className="mt-1 text-sm text-slate-500">{subtitle}</p>}
+            {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-2 text-slate-400 hover:bg-stone-100 hover:text-slate-600 focus:outline-none"
-            aria-label="Close modal"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-stone-100 hover:text-slate-700 transition-colors"
+            aria-label="Close dialog"
           >
             <X className="h-5 w-5" />
           </button>

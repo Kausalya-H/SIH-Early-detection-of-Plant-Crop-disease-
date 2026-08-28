@@ -2,116 +2,254 @@ import React, { useEffect, useState } from 'react';
 import { farmService } from '../services/farmService';
 import { Farm } from '../types/farmer';
 import { PageHeader } from '../components/common/PageHeader';
-import { FarmCard } from '../components/farms/FarmCard';
-import { SearchInput } from '../components/common/SearchInput';
-import { FilterBar } from '../components/common/FilterBar';
-import { EmptyState } from '../components/common/EmptyState';
-import { LoadingState } from '../components/common/LoadingState';
-import { AddFarmModal } from '../components/common/AddFarmModal';
-import { Plus } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
+import { StatusBadge } from '../components/common/StatusBadge';
+import { RiskBadge } from '../components/common/RiskBadge';
+import { Modal } from '../components/common/Modal';
+import { Sprout, Plus, Search, MapPin, Droplets, Calendar, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const MyFarmsPage: React.FC = () => {
-  const { t } = useLanguage();
   const [farms, setFarms] = useState<Farm[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCrop, setSelectedCrop] = useState('ALL');
+  const [searchTerm, setSearchTerm] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  const fetchFarms = async () => {
-    setIsLoading(true);
-    try {
-      const data = await farmService.getFarms();
-      setFarms(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // New Farm Form State
+  const [name, setName] = useState('');
+  const [cropName, setCropName] = useState('Tomato');
+  const [variety, setVariety] = useState('');
+  const [areaAcres, setAreaAcres] = useState('3.0');
+  const [village, setVillage] = useState('Malegaon Khurd');
+  const [taluka, setTaluka] = useState('Baramati');
+  const [district, setDistrict] = useState('Pune');
+  const [state, setState] = useState('Maharashtra');
+  const [irrigationType, setIrrigationType] = useState<'DRIP' | 'SPRINKLER' | 'FLOOD' | 'RAINFED'>('DRIP');
 
   useEffect(() => {
-    fetchFarms();
+    farmService.getFarms().then(setFarms);
   }, []);
 
-  const crops = ['ALL', 'Tomato', 'Chilli', 'Groundnut', 'Rice'];
-  const cropFilterOptions = crops.map((c) => ({
-    id: c,
-    label: c === 'ALL' ? t.farms.allCrops : c,
-    count: c === 'ALL' ? farms.length : farms.filter((f) => f.crop.name === c).length,
-  }));
+  const handleAddFarm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const newFarm = await farmService.addFarm({
+      farmerId: 'MH-413801',
+      name,
+      plotNumber: `Gat No. ${Math.floor(100 + Math.random() * 900)}`,
+      village,
+      taluka,
+      district,
+      state,
+      areaAcres: parseFloat(areaAcres) || 2.5,
+      irrigationType,
+      crop: {
+        name: cropName,
+        variety: variety || 'Standard',
+        sowingDate: new Date().toISOString().split('T')[0],
+        stage: 'SOWING',
+        health: 'HEALTHY',
+        currentRisk: 'LOW',
+      },
+    });
+    setFarms([newFarm, ...farms]);
+    setIsAddModalOpen(false);
+    setName('');
+  };
 
-  const filteredFarms = farms.filter((farm) => {
-    const matchesQuery =
-      searchQuery === '' ||
-      farm.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      farm.village.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      farm.crop.name.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesCrop = selectedCrop === 'ALL' || farm.crop.name === selectedCrop;
-
-    return matchesQuery && matchesCrop;
-  });
-
-  if (isLoading) {
-    return <LoadingState message="Loading your registered farms..." count={4} />;
-  }
+  const filteredFarms = farms.filter(
+    (f) =>
+      f.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      f.crop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      f.village.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title={t.farms.title}
-        subtitle={t.farms.subtitle}
+        title="My Registered Farms"
+        subtitle="Manage plot acreage, monitor crop growth stages, and schedule health scans"
         action={
           <button
             type="button"
             onClick={() => setIsAddModalOpen(true)}
-            className="btn-primary text-xs sm:text-sm py-2.5 px-4 inline-flex items-center gap-2"
+            className="btn-primary"
           >
             <Plus className="h-4 w-4" />
-            <span>{t.farms.addFarm}</span>
+            <span>Register New Plot</span>
           </button>
         }
       />
 
-      {/* Search & Filter */}
-      <div className="space-y-3">
-        <SearchInput
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder={t.farms.searchPlaceholder}
-        />
-
-        <FilterBar
-          options={cropFilterOptions}
-          selectedId={selectedCrop}
-          onSelect={setSelectedCrop}
-        />
+      {/* Search Filter Bar */}
+      <div className="card p-4">
+        <div className="relative">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search by farm name, village, or crop..."
+            className="input-field pl-10"
+          />
+        </div>
       </div>
 
-      {/* Farms Grid */}
-      {filteredFarms.length === 0 ? (
-        <EmptyState
-          title="No farms found"
-          description={t.farms.noFarmsFound}
-          actionText={t.farms.addFarm}
-          onAction={() => setIsAddModalOpen(true)}
-        />
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {filteredFarms.map((farm) => (
-            <FarmCard key={farm.id} farm={farm} />
-          ))}
-        </div>
-      )}
+      {/* Farm Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {filteredFarms.map((farm) => (
+          <div key={farm.id} className="card p-6 card-hover flex flex-col justify-between space-y-4">
+            <div>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">{farm.name}</h3>
+                  <p className="text-xs text-slate-500 flex items-center gap-1.5 mt-0.5">
+                    <MapPin className="h-3.5 w-3.5 text-agri-600 shrink-0" />
+                    <span>{farm.plotNumber || 'Plot'} • {farm.village}, {farm.taluka}</span>
+                  </p>
+                </div>
+                <StatusBadge status={farm.crop.health} />
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-2.5 text-xs">
+                <div className="rounded-xl bg-stone-50 p-3 border border-stone-200/80">
+                  <span className="text-slate-400 block text-[10px] uppercase font-bold">Crop & Variety</span>
+                  <span className="font-bold text-slate-900 text-sm mt-0.5 block">{farm.crop.name}</span>
+                  <span className="text-slate-500 text-xs">{farm.crop.variety || 'Hybrid'}</span>
+                </div>
+
+                <div className="rounded-xl bg-stone-50 p-3 border border-stone-200/80">
+                  <span className="text-slate-400 block text-[10px] uppercase font-bold">Growth Stage</span>
+                  <span className="font-bold text-slate-900 text-sm mt-0.5 block">{farm.crop.stage}</span>
+                  <span className="text-slate-500 text-xs">Sown: {farm.crop.sowingDate}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-stone-100 flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-3 text-slate-600">
+                <span className="font-semibold">{farm.areaAcres} Acres</span>
+                <span>•</span>
+                <span>{farm.irrigationType} Irrigation</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <RiskBadge level={farm.crop.currentRisk} size="sm" />
+                <Link
+                  to="/farmer/disease-detection"
+                  className="rounded-xl bg-agri-50 border border-agri-300 px-3 py-1.5 text-xs font-bold text-agri-800 hover:bg-agri-100 transition-colors flex items-center gap-1"
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-agri-600" />
+                  <span>Scan Crop</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Add Farm Modal */}
-      <AddFarmModal
+      <Modal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        onFarmAdded={(newFarm) => setFarms([newFarm, ...farms])}
-      />
+        title="Register New Agricultural Plot"
+        subtitle="Add a new farm parcel to your profile for automated health tracking"
+      >
+        <form onSubmit={handleAddFarm} className="space-y-4">
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+              Farm / Plot Name *
+            </label>
+            <input
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. South Mango Orchard, West Sugarcane Plot"
+              className="input-field"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Crop Type *
+              </label>
+              <select
+                value={cropName}
+                onChange={(e) => setCropName(e.target.value)}
+                className="input-field"
+              >
+                <option value="Tomato">Tomato (टोमॅटो)</option>
+                <option value="Chilli">Chilli (मिरची)</option>
+                <option value="Soybean">Soybean (सोयाबीन)</option>
+                <option value="Cotton">Cotton (कापूस)</option>
+                <option value="Wheat">Wheat (गहू)</option>
+                <option value="Rice">Rice (भात)</option>
+                <option value="Groundnut">Groundnut (भुईमूग)</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Acreage (Area in Acres) *
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                required
+                value={areaAcres}
+                onChange={(e) => setAreaAcres(e.target.value)}
+                className="input-field"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Village *
+              </label>
+              <input
+                type="text"
+                required
+                value={village}
+                onChange={(e) => setVillage(e.target.value)}
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Irrigation System
+              </label>
+              <select
+                value={irrigationType}
+                onChange={(e) => setIrrigationType(e.target.value as any)}
+                className="input-field"
+              >
+                <option value="DRIP">Drip Irrigation (ठिबक)</option>
+                <option value="SPRINKLER">Sprinkler (तुषार)</option>
+                <option value="FLOOD">Flood Irrigation (पाट पाणी)</option>
+                <option value="RAINFED">Rainfed (जिरायती)</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-3 pt-3 border-t border-stone-100">
+            <button
+              type="button"
+              onClick={() => setIsAddModalOpen(false)}
+              className="btn-secondary"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="btn-primary"
+            >
+              Save Plot
+            </button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };

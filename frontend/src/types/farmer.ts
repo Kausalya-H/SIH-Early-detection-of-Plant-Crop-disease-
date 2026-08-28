@@ -1,5 +1,3 @@
-import { Language } from '../i18n/translations';
-
 export type HealthStatus = 'HEALTHY' | 'WATCH' | 'AFFECTED' | 'CRITICAL';
 
 export type CropStage = 'SOWING' | 'VEGETATIVE' | 'FLOWERING' | 'FRUITING' | 'MATURITY' | 'HARVEST_READY';
@@ -41,7 +39,7 @@ export interface FarmerProfile {
   taluka: string;
   district: string;
   state: string;
-  preferredLanguage: Language;
+  preferredLanguage: string;
   notificationPreferences: {
     sms: boolean;
     whatsapp: boolean;

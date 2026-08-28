@@ -1,38 +1,40 @@
 import { FarmerProfile } from '../types/farmer';
 import { initialMockFarmer } from '../data/mockFarmer';
-import { USE_MOCK_DATA, ENDPOINTS } from './apiConfig';
-import { apiRequest } from './apiClient';
+
+const LOCAL_STORAGE_FARMER_KEY = 'farmer_portal_profile';
 
 export const farmerService = {
   async getProfile(): Promise<FarmerProfile> {
-    if (!USE_MOCK_DATA) {
-      const res = await apiRequest<FarmerProfile>(ENDPOINTS.FARMER_PROFILE);
-      if (res.data) return res.data;
-    }
-    // Return local mock
-    const saved = localStorage.getItem('farmer_portal_user');
+    const saved = localStorage.getItem(LOCAL_STORAGE_FARMER_KEY);
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        return {
+          ...initialMockFarmer,
+          ...parsed,
+          notificationPreferences: {
+            ...initialMockFarmer.notificationPreferences,
+            ...(parsed.notificationPreferences || {}),
+          },
+        };
       } catch (e) {
-        console.error('Failed to parse cached farmer profile', e);
+        console.error('Failed to parse farmer profile', e);
       }
     }
     return initialMockFarmer;
   },
 
-  async updateProfile(profile: Partial<FarmerProfile>): Promise<FarmerProfile> {
-    if (!USE_MOCK_DATA) {
-      const res = await apiRequest<FarmerProfile>(ENDPOINTS.FARMERS, {
-        method: 'PUT',
-        body: JSON.stringify(profile),
-      });
-      if (res.data) return res.data;
-    }
-    // Update local storage
+  async updateProfile(updates: Partial<FarmerProfile>): Promise<FarmerProfile> {
     const current = await this.getProfile();
-    const updated = { ...current, ...profile };
-    localStorage.setItem('farmer_portal_user', JSON.stringify(updated));
+    const updated: FarmerProfile = {
+      ...current,
+      ...updates,
+      notificationPreferences: {
+        ...current.notificationPreferences,
+        ...(updates.notificationPreferences || {}),
+      },
+    };
+    localStorage.setItem(LOCAL_STORAGE_FARMER_KEY, JSON.stringify(updated));
     return updated;
-  }
+  },
 };
