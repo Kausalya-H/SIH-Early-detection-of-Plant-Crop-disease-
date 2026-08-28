@@ -587,11 +587,11 @@ The project was developed collaboratively, with different team members responsib
 
 | Team Member | Role | Contribution |
 |---|---|---|
-| **Kausalya** | Backend Developer | Backend development, API integration, disease detection backend, and ML-backend integration |
-| **Rohith** | Backend Developer | Backend development and backend services |
+| **Shiva** | NLP Developer | NLP module and language-related features |
+| **Rohith** | Backend Developer | Backend development and backend services | Complaints Handling |
 | **Sujitha** | Frontend Developer | Frontend development and user interface |
 | **Sri Pushpa** | Frontend Developer | Frontend development and frontend–backend integration |
-| **Shiva** | NLP Developer | NLP module and language-related features |
+| **Kausalya** | Backend Developer | Backend development, API integration, disease detection backend, and ML-backend integration |
 | **Giridhar** | Presentation & Documentation | PPT preparation, project presentation, documentation, and project explanation |
 
 ---
