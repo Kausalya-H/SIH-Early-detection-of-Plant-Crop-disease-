@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routes.farmer import router as farmer_router
 from app.routes.disease import router as disease_router
 from app.routes.admin import router as admin_router
+from app.routes.auth import router as auth_router
+
 app = FastAPI(
     title="KrishiRakshak AI",
     description="AI-powered crop disease and pest early-warning platform",
@@ -21,6 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router)
 app.include_router(farmer_router)
 app.include_router(disease_router)
 app.include_router(admin_router)
