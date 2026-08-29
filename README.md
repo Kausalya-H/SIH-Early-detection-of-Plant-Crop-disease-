@@ -79,3 +79,181 @@ The system provides a simple workflow for farmers:
                        │
                        ▼
               Advisory / Action
+The modular architecture allows future integration of weather data, geospatial analysis, multilingual NLP services, notifications, and predictive analytics.
+
+⸻
+
+✨ Key Features
+
+🔬 AI-Based Leaf Disease Detection
+
+The system analyzes uploaded plant leaf images using trained deep-learning models to identify possible diseases.
+
+📴 Offline Disease Detection
+
+The platform supports an offline inference workflow in which a locally available trained model can process a leaf image without requiring continuous internet connectivity.
+
+The offline inference component uses TensorFlow to run the trained model locally, reducing dependency on network connectivity and improving accessibility in areas with limited or unreliable internet access.
+
+📊 Confidence-Based Prediction
+
+The disease detection service provides the predicted class along with the model’s confidence score.
+
+🖼️ Leaf Image Upload
+
+Farmers can upload plant leaf images through the frontend for analysis.
+
+⚡ Backend API
+
+A Python-based backend handles image processing, model inference, and communication between the frontend and AI services.
+
+🖥️ User-Friendly Frontend
+
+The frontend provides a simple interface for uploading leaf images and viewing disease detection results.
+
+🗣️ NLP & Multilingual Support
+
+The project includes an NLP component intended to support language-aware agricultural communication and future multilingual advisories.
+
+🌦️ Weather Intelligence
+
+Weather information can be incorporated to identify environmental conditions that may increase plant disease risk.
+
+🗺️ Geospatial Insights
+
+Location-based information can be used for regional disease monitoring and outbreak analysis.
+
+🔔 Early Alerts
+
+The platform is designed to support timely notifications and disease-risk alerts.
+
+📈 Predictive Analytics
+
+Historical disease, weather, and geographical information can be used for predictive crop-risk analysis.
+
+👨‍🔬 Scientist / Authority Review
+
+The platform can support review workflows in which detected cases are forwarded for expert verification and outbreak monitoring.
+                         ┌──────────────────┐
+                         │      Farmer      │
+                         └────────┬─────────┘
+                                  │
+                                  ▼
+                         ┌──────────────────┐
+                         │    Frontend      │
+                         │   Application    │
+                         └────────┬─────────┘
+                                  │
+                              REST API
+                                  │
+                                  ▼
+                         ┌──────────────────┐
+                         │     Backend      │
+                         │       API        │
+                         └────────┬─────────┘
+                                  │
+                                  ▼
+                         ┌──────────────────┐
+                         │ Disease Detection│
+                         │     Service      │
+                         └────────┬─────────┘
+                                  │
+                                  ▼
+                         ┌──────────────────┐
+                         │    AI Model      │
+                         │    Inference     │
+                         └────────┬─────────┘
+                                  │
+                                  ▼
+                         ┌──────────────────┐
+                         │ Disease Result   │
+                         │ + Confidence     │
+                         └────────┬─────────┘
+                                  │
+                                  ▼
+                         ┌──────────────────┐
+                         │ Frontend Result  │
+                         └──────────────────┘
+🧠 AI/ML Component
+
+The disease detection module uses deep-learning and computer-vision models to analyze plant leaf images.
+Online Mode
+Leaf Image
+    │
+    ▼
+Frontend
+    │
+    ▼
+Backend API
+    │
+    ▼
+AI Disease Model
+    │
+    ▼
+Disease Prediction
+    │
+    ▼
+Result + Confidence
+
+Offline Mode
+Leaf Image
+    │
+    ▼
+Local Application
+    │
+    ▼
+TensorFlow Model
+    │
+    ▼
+Local Inference
+    │
+    ▼
+Disease Prediction
+    │
+    ▼
+Result + Confidence
+
+👥 Team Contributions
+
+The project was developed collaboratively, with different team members responsible for different modules.
+Team Member
+
+Role
+
+Contribution
+
+Shiva
+
+NLP Developer
+
+NLP module and language-related features
+
+Kausalya
+
+Backend Developer
+
+Backend development, API integration, disease detection backend, and ML-backend integration
+
+Rohith
+
+Backend Developer
+
+Backend services and complaints handling
+
+Sujitha
+
+Frontend Developer
+
+Frontend development and user interface
+
+Sri Pushpa
+
+Frontend Developer
+
+Frontend development and frontend–backend integration
+
+Giridhar
+
+Presentation & Documentation
+
+PPT preparation, project presentation, documentation, and project explanation
