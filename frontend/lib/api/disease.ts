@@ -46,3 +46,52 @@ export async function reportDisease(params: ReportDiseaseParams): Promise<Diseas
     body: formData,
   });
 }
+
+/**
+ * Generates and downloads the official PDF crop health report.
+ * Matches backend: POST /disease/report (FileResponse: application/pdf)
+ */
+export async function downloadDiseaseReportPdf(params: ReportDiseaseParams): Promise<Blob> {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  const formData = new FormData();
+  formData.append('file', params.file);
+  formData.append('crop', params.crop);
+  formData.append('farmer_name', params.farmerName);
+  formData.append('phone', params.phone);
+  formData.append('location', params.location);
+
+  const response = await fetch(`${API_BASE_URL}/disease/report`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    let errorDetail = `Failed to generate PDF report (${response.status})`;
+    try {
+      const errJson = await response.json();
+      if (errJson && (errJson.message || errJson.detail)) {
+        errorDetail = errJson.message || errJson.detail;
+      }
+    } catch {
+      // ignore
+    }
+    throw new Error(errorDetail);
+  }
+
+  return response.blob();
+}
+
+/**
+ * Triggers a browser download of a generated Blob (e.g. PDF).
+ */
+export function triggerBlobDownload(blob: Blob, fileName: string): void {
+  if (typeof window === 'undefined') return;
+  const url = window.URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = fileName;
+  document.body.appendChild(anchor);
+  anchor.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(anchor);
+}

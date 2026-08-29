@@ -23,10 +23,19 @@ export interface Disease {
 }
 
 export interface DiseasePrediction {
-  diseaseName: string;
+  diseaseName?: string;
+  disease?: string;
   crop: string;
   confidence: number; // 0.0 - 1.0 or 0 - 100
-  riskLevel: RiskLevel;
+  riskLevel?: RiskLevel;
+  severity?: string;
+  warning_signs?: string[];
+  advice?: string;
+  treatment?: string;
+  active_ingredient?: string;
+  application?: string;
+  safety_note?: string;
+  message?: string;
   description?: string;
   advisory?: string[];
   rawResponse?: Record<string, unknown>;

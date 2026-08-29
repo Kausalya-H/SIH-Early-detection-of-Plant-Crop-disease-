@@ -21,11 +21,14 @@ import {
   CpuIcon,
   NationalEmblemMotif,
   ActivityIcon,
+  LockIcon,
 } from '@/components/shared/ui/Icons';
 import { useTranslation } from '@/i18n';
+import { useAuth } from '@/context';
 
 export default function Home() {
   const { t } = useTranslation();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const portals = [
     {
@@ -127,7 +130,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* National Emblem & Grid Status & Language Selector */}
+            {/* National Emblem & Grid Status & Auth Action */}
             <div className="shrink-0 p-4 rounded-lg bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <NationalEmblemMotif className="w-10 h-10 text-slate-700 shrink-0" />
@@ -141,8 +144,30 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="sm:border-l sm:border-slate-200 sm:pl-3 pt-2 sm:pt-0 border-t border-slate-200">
+              <div className="sm:border-l sm:border-slate-200 sm:pl-3 pt-2 sm:pt-0 border-t border-slate-200 flex flex-col gap-2">
                 <LanguageSelector variant="header" />
+
+                {isAuthenticated && user ? (
+                  <div className="flex items-center justify-between gap-2 pt-1">
+                    <span className="text-[11px] font-semibold text-emerald-800 truncate max-w-[120px]">
+                      {user.name} ({user.role})
+                    </span>
+                    <button
+                      onClick={logout}
+                      className="text-[10px] text-rose-700 hover:underline font-bold"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="px-3 py-1.5 rounded bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs text-center flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                  >
+                    <LockIcon className="w-3.5 h-3.5" />
+                    <span>Portal Sign In</span>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

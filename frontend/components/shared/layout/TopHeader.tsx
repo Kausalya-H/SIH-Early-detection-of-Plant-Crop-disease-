@@ -4,8 +4,19 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { UserRole } from '@/types';
+import { useAuth } from '@/context';
 import { RoleBadge, RiskBadge } from '../ui/Badge';
-import { AlertIcon, SearchIcon, MenuIcon, XIcon, OutbreakIcon, MapIcon, FarmIcon, ChevronRightIcon } from '../ui/Icons';
+import {
+  AlertIcon,
+  SearchIcon,
+  MenuIcon,
+  XIcon,
+  OutbreakIcon,
+  MapIcon,
+  FarmIcon,
+  ChevronRightIcon,
+  LockIcon,
+} from '../ui/Icons';
 import { LanguageSelector } from '../ui/LanguageSelector';
 import { useTranslation } from '@/i18n';
 import { MOCK_OUTBREAKS, MOCK_RISK_ZONES, MOCK_MONITORED_FARMS } from '@/lib/mock';
@@ -37,6 +48,7 @@ export function TopHeader({
 }: TopHeaderProps) {
   const { t } = useTranslation();
   const router = useRouter();
+  const { user, logout } = useAuth();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -321,21 +333,33 @@ export function TopHeader({
             )}
           </Link>
 
-          {/* User Session Pill */}
-          <div className="flex items-center gap-2.5 pl-2.5 border-l border-slate-200">
-            <div className="h-8 w-8 rounded-full bg-emerald-800 text-white flex items-center justify-center font-semibold text-xs shrink-0 shadow-xs">
+          {/* User Session Pill & Logout */}
+          <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+            <div
+              className="h-8 w-8 rounded-full bg-emerald-800 text-white flex items-center justify-center font-semibold text-xs shrink-0 shadow-xs"
+              title={user?.name || roleLabels[role]}
+            >
               {role === 'OFFICER' ? 'DAO' : role === 'ADMIN' ? 'ADM' : 'KIS'}
             </div>
 
-            <div className="hidden xl:block text-left leading-tight">
-              <p className="text-xs font-semibold text-slate-800">
-                {roleLabels[role]}
+            <div className="hidden xl:block text-left leading-tight max-w-[140px]">
+              <p className="text-xs font-semibold text-slate-800 truncate" title={user?.name}>
+                {user?.name || roleLabels[role]}
               </p>
-              <p className="text-[10px] text-slate-400 flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />
-                {t('common.authorizedAccess', 'Authorized Access')}
+              <p className="text-[10px] text-slate-400 truncate">
+                {user?.designation || t('common.authorizedAccess', 'Authorized Access')}
               </p>
             </div>
+
+            <button
+              type="button"
+              onClick={logout}
+              className="p-1.5 rounded-md text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition-colors cursor-pointer"
+              title={t('common.logout', 'Sign Out / Logout')}
+              aria-label="Logout"
+            >
+              <LockIcon className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>

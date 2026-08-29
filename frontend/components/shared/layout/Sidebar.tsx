@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NavItem, UserRole } from '@/types';
 import { cn } from '@/lib/utils';
-import { getIconByName, ShieldIcon, XIcon, ChevronRightIcon } from '../ui/Icons';
+import { getIconByName, ShieldIcon, XIcon, ChevronRightIcon, LockIcon } from '../ui/Icons';
 import { Badge } from '../ui/Badge';
 import { useTranslation } from '@/i18n';
+import { useAuth } from '@/context';
 
 export interface SidebarProps {
   items: NavItem[];
@@ -20,6 +21,7 @@ export interface SidebarProps {
 export function Sidebar({ items, portalRole, isOpen = false, onClose, className }: SidebarProps) {
   const pathname = usePathname();
   const { t } = useTranslation();
+  const { user, logout, canSwitchTo, switchPortal } = useAuth();
 
   const portalMetadata = {
     OFFICER: {
@@ -90,12 +92,12 @@ export function Sidebar({ items, portalRole, isOpen = false, onClose, className 
           </div>
 
           {/* Navigation Links */}
-          <nav className="px-3 py-4 space-y-1 overflow-y-auto max-h-[calc(100vh-280px)]">
+          <nav className="px-3 py-4 space-y-1 overflow-y-auto max-h-[calc(100vh-320px)]">
             {items.map((item) => {
               const portalBasePath = `/${portalRole.toLowerCase()}`;
               const isDashboardItem = item.href === portalBasePath || item.href === `${portalBasePath}/dashboard`;
               const isDashboardRoute = isDashboardItem && (pathname === portalBasePath || pathname === `${portalBasePath}/dashboard`);
-              const isActive = isDashboardRoute || (!isDashboardItem && pathname.startsWith(item.href));
+              const isActive = isDashboardRoute || (!isDashboardItem && (pathname === item.href || pathname.startsWith(`${item.href}/`)));
 
               return (
                 <Link
@@ -136,53 +138,121 @@ export function Sidebar({ items, portalRole, isOpen = false, onClose, className 
           </nav>
         </div>
 
-        {/* Bottom: Portal Switcher & System Meta */}
-        <div className="p-3 border-t border-slate-800 bg-slate-950/40 space-y-2">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 px-2">
-            {t('common.switchPortal', 'Switch Portal Gateway')}
-          </p>
+        {/* Bottom: User Session, Portal Switcher & System Meta */}
+        <div className="p-3 border-t border-slate-800 bg-slate-950/60 space-y-2.5">
+          {/* User Session Info */}
+          {user && (
+            <div className="p-2 rounded bg-slate-900/90 border border-slate-800 space-y-1">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-bold text-slate-100 truncate">{user.name}</p>
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/60 uppercase">
+                  {user.role}
+                </span>
+              </div>
+              <p className="text-[10px] text-slate-400 truncate">
+                {user.designation || user.email || user.phone}
+              </p>
+            </div>
+          )}
 
-          <div className="grid grid-cols-3 gap-1">
-            <Link
-              href="/farmer"
-              className={cn(
-                'px-2 py-1.5 rounded text-center text-[11px] font-medium transition-colors',
-                portalRole === 'FARMER'
-                  ? 'bg-emerald-700 text-white font-semibold'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
-              )}
-            >
-              {t('roles.farmer', 'Farmer')}
-            </Link>
+          {/* Portal Gateway Switcher */}
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 px-1 mb-1.5">
+              {t('common.switchPortal', 'Switch Portal Gateway')}
+            </p>
 
-            <Link
-              href="/officer"
-              className={cn(
-                'px-2 py-1.5 rounded text-center text-[11px] font-medium transition-colors',
-                portalRole === 'OFFICER'
-                  ? 'bg-emerald-700 text-white font-semibold'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
-              )}
-            >
-              {t('roles.officer', 'Officer')}
-            </Link>
+            <div className="grid grid-cols-3 gap-1">
+              {/* Farmer */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (canSwitchTo('FARMER')) {
+                    if (onClose) onClose();
+                    switchPortal('FARMER');
+                  }
+                }}
+                disabled={!canSwitchTo('FARMER')}
+                className={cn(
+                  'px-2 py-1.5 rounded text-center text-[11px] font-medium transition-colors cursor-pointer',
+                  portalRole === 'FARMER'
+                    ? 'bg-emerald-700 text-white font-semibold'
+                    : canSwitchTo('FARMER')
+                    ? 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
+                    : 'bg-slate-900/50 text-slate-600 cursor-not-allowed opacity-50'
+                )}
+                title={canSwitchTo('FARMER') ? 'Switch to Farmer Portal' : 'Access Restricted'}
+              >
+                {t('roles.farmer', 'Farmer')}
+              </button>
 
-            <Link
-              href="/admin"
-              className={cn(
-                'px-2 py-1.5 rounded text-center text-[11px] font-medium transition-colors',
-                portalRole === 'ADMIN'
-                  ? 'bg-purple-700 text-white font-semibold'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
-              )}
-            >
-              {t('roles.admin', 'Admin')}
-            </Link>
+              {/* Officer */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (canSwitchTo('OFFICER')) {
+                    if (onClose) onClose();
+                    switchPortal('OFFICER');
+                  }
+                }}
+                disabled={!canSwitchTo('OFFICER')}
+                className={cn(
+                  'px-2 py-1.5 rounded text-center text-[11px] font-medium transition-colors cursor-pointer',
+                  portalRole === 'OFFICER'
+                    ? 'bg-emerald-700 text-white font-semibold'
+                    : canSwitchTo('OFFICER')
+                    ? 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
+                    : 'bg-slate-900/50 text-slate-600 cursor-not-allowed opacity-50'
+                )}
+                title={canSwitchTo('OFFICER') ? 'Switch to Officer Portal' : 'Access Restricted to Officers & Admins'}
+              >
+                {t('roles.officer', 'Officer')}
+              </button>
+
+              {/* Admin */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (canSwitchTo('ADMIN')) {
+                    if (onClose) onClose();
+                    switchPortal('ADMIN');
+                  }
+                }}
+                disabled={!canSwitchTo('ADMIN')}
+                className={cn(
+                  'px-2 py-1.5 rounded text-center text-[11px] font-medium transition-colors cursor-pointer',
+                  portalRole === 'ADMIN'
+                    ? 'bg-purple-700 text-white font-semibold'
+                    : canSwitchTo('ADMIN')
+                    ? 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
+                    : 'bg-slate-900/50 text-slate-600 cursor-not-allowed opacity-50'
+                )}
+                title={canSwitchTo('ADMIN') ? 'Switch to Admin Portal' : 'Access Restricted to Central Admins'}
+              >
+                {t('roles.admin', 'Admin')}
+              </button>
+            </div>
           </div>
+
+          {/* Logout Action */}
+          <button
+            type="button"
+            onClick={() => {
+              if (onClose) onClose();
+              logout();
+            }}
+            className="w-full flex items-center justify-between px-2.5 py-1.5 text-[11px] text-rose-300 hover:text-white hover:bg-rose-950/70 rounded border border-rose-900/40 transition-colors cursor-pointer"
+          >
+            <span className="flex items-center gap-2">
+              <LockIcon className="w-3.5 h-3.5" />
+              <span>{t('common.logout', 'Sign Out / Logout')}</span>
+            </span>
+            <ChevronRightIcon className="w-3.5 h-3.5" />
+          </button>
 
           <Link
             href="/"
-            className="w-full flex items-center justify-between px-2.5 py-1.5 text-[11px] text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-colors"
+            onClick={onClose}
+            className="w-full flex items-center justify-between px-2.5 py-1 text-[11px] text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-colors"
           >
             <span>{t('common.returnHome', 'Return to National Home')}</span>
             <ChevronRightIcon className="w-3.5 h-3.5" />
