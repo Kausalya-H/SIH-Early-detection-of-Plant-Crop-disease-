@@ -633,10 +633,11 @@ responsible for different modules.
                                                   and frontend--backend
                                                   integration
 
-  **Giridhar**            Presentation &          PPT preparation,
-                          Documentation           project presentation,
-                                                  documentation, and
-                                                  project explanation
+  **Giridhar**            DL DEVELOPER            DL Model training
+                                                  
+                                                  
+                                                  
+                                                  
   -----------------------------------------------------------------------
 
 ------------------------------------------------------------------------
