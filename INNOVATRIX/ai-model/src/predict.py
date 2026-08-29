@@ -1,4 +1,5 @@
 from pathlib import Path
+from recommender import get_recommendation
 import tensorflow as tf
 import json
 from prediction_service import (
@@ -236,6 +237,8 @@ print("PREDICTION RESULT")
 print("=" * 60)
 
 print("Predicted class:", predicted_class)
+recommendation = get_recommendation(predicted_class)
+print(f"\nPredicted Disease : {recommendation['disease']}")
 print("Readable result:", readable_disease_name)
 print(f"Confidence: {confidence:.2f}%")
 # Display Phase 21 risk classification
