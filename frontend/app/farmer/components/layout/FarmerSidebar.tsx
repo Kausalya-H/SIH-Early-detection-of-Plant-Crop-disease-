@@ -27,7 +27,7 @@ export const FarmerSidebar: React.FC<FarmerSidebarProps> = ({ onRequestOfficerSu
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to log out from the Farmer Portal?')) {
       logout();
-      navigate('/farmer/login');
+      navigate('/');
     }
   };
 
