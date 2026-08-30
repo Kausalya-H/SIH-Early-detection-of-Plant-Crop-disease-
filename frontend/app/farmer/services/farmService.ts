@@ -1,37 +1,59 @@
-import { Farm } from '../types/farmer';
-import { mockFarms } from '../data/mockFarms';
+import { apiRequest } from "./apiClient";
+import { ENDPOINTS } from "./apiConfig";
 
-const LOCAL_STORAGE_FARMS_KEY = 'farmer_portal_farms_v2';
+export interface Farm {
+  _id: string;
+  userId: string;
+  farmName: string;
+  location: string;
+  latitude: number;
+  longitude: number;
+  area: number;
+  areaUnit: string;
+  soilType?: string;
+  irrigation?: string;
+  crops: Crop[];
+  createdAt: string;
+}
+
+export interface Crop {
+  _id: string;
+  farmId: string;
+  userId: string;
+  cropName: string;
+  variety?: string;
+  acreage: number;
+  sowingDate?: string;
+  season?: string;
+  createdAt: string;
+}
 
 export const farmService = {
-  async getFarms(): Promise<Farm[]> {
-    const saved = localStorage.getItem(LOCAL_STORAGE_FARMS_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error('Failed to parse farms', e);
-      }
-    }
-    localStorage.setItem(LOCAL_STORAGE_FARMS_KEY, JSON.stringify(mockFarms));
-    return mockFarms;
+  async getMyFarms(): Promise<{ data: Farm[] | null; error: string | null }> {
+    return apiRequest<Farm[]>(ENDPOINTS.FARMS);
   },
 
-  async getFarmById(id: string): Promise<Farm | null> {
-    const farms = await this.getFarms();
-    return farms.find((f) => f.id === id) || null;
+  async getFarm(farmId: string): Promise<{ data: Farm | null; error: string | null }> {
+    return apiRequest<Farm>(ENDPOINTS.FARM_DETAIL(farmId));
   },
 
-  async addFarm(farmData: Omit<Farm, 'id' | 'createdAt' | 'totalScansCount'>): Promise<Farm> {
-    const farms = await this.getFarms();
-    const newFarm: Farm = {
-      ...farmData,
-      id: `farm_${Date.now()}`,
-      totalScansCount: 0,
-      createdAt: new Date().toISOString().split('T')[0],
-    };
-    const updated = [newFarm, ...farms];
-    localStorage.setItem(LOCAL_STORAGE_FARMS_KEY, JSON.stringify(updated));
-    return newFarm;
+  async createFarm(data: { farmName: string; location: string; latitude: number; longitude: number; area?: number; soilType?: string; irrigation?: string }) {
+    return apiRequest<any>(ENDPOINTS.FARMS, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  },
+
+  async addCrop(farmId: string, data: { cropName: string; variety?: string; acreage?: number; sowingDate?: string; season?: string }) {
+    return apiRequest<any>(ENDPOINTS.FARM_CROPS(farmId), {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  },
+
+  async removeCrop(farmId: string, cropId: string) {
+    return apiRequest<any>(`${ENDPOINTS.FARM_CROPS(farmId)}/${cropId}`, {
+      method: "DELETE",
+    });
   },
 };

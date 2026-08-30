@@ -2,33 +2,22 @@ import os
 from pymongo import MongoClient
 
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
-
-# Short serverSelectionTimeoutMS prevents blocking backend startup when MongoDB is not running
-client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=1000)
+client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=2000)
 db = client["krishirakshak"]
 
-farmers_collection = db["farmers"]
+# Collections
+users_collection = db["users"]
+farms_collection = db["farms"]
+crops_collection = db["crops"]
+reports_collection = db["disease_reports"]
+farmers_collection = db["farmers"]  # keep old one for backwards compat
 
-
-def check_mongo_connection() -> bool:
+def check_mongo_connection():
     try:
         client.admin.command("ping")
         return True
     except Exception:
         return False
-from pymongo import MongoClient
-
-MONGO_URL = "mongodb://localhost:27017"
-
-# Keep MongoDB connection optional during local development.
-client = MongoClient(
-    MONGO_URL,
-    serverSelectionTimeoutMS=2000
-)
-
-db = client["krishirakshak"]
-
-farmers_collection = db["farmers"]
 
 try:
     client.admin.command("ping")

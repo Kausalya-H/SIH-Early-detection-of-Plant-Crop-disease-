@@ -3,25 +3,74 @@ import { mockScans, mockSamplePredictions } from '../data/mockScans';
 import { USE_MOCK_DATA, ENDPOINTS } from './apiConfig';
 import { apiRequest } from './apiClient';
 
-const LOCAL_STORAGE_SCANS_KEY = 'farmer_portal_scans';
+
 
 export const scanService = {
   async getScans(): Promise<CropScan[]> {
-    const saved = localStorage.getItem(LOCAL_STORAGE_SCANS_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error('Failed to parse cached scans', e);
-      }
+    const res = await apiRequest<any[]>(ENDPOINTS.REPORTS);
+    if (res.data) {
+      return res.data.map((r: any) => ({
+        id: r._id || r.id,
+        farmerId: r.userId,
+        farmId: r.farmId || '',
+        farmName: r.farmName || 'My Farm',
+        cropName: r.cropName,
+        imageUrl: '',
+        scanDate: r.createdAt,
+        result: {
+          crop: r.cropName,
+          disease: r.disease,
+          confidence: r.confidence,
+          riskLevel: (r.overallSeverity || 'LOW').toUpperCase() as any,
+          severity: r.severity || 'Low',
+          warning_signs: r.warning_signs || [],
+          symptoms: [],
+          explanation: '',
+          advice: r.treatment || '',
+          treatment: r.treatment || '',
+          active_ingredient: r.activeIngredient,
+          safety_note: r.safetyNote || '',
+          preventive_measures: [],
+          disclaimer: '',
+        },
+        officerAssistanceRequested: r.status === 'confirmed',
+        officerAssistanceStatus: r.status === 'confirmed' ? 'RESOLVED' : r.status === 'flagged' ? 'IN_REVIEW' : 'PENDING',
+      }));
     }
-    localStorage.setItem(LOCAL_STORAGE_SCANS_KEY, JSON.stringify(mockScans));
-    return mockScans;
+    return [];
   },
 
   async getScanById(id: string): Promise<CropScan | null> {
-    const scans = await this.getScans();
-    return scans.find((s) => s.id === id) || null;
+    const res = await apiRequest<any>(ENDPOINTS.REPORT_DETAIL(id));
+    if (res.data) {
+      const r = res.data;
+      return {
+        id: r._id || r.id,
+        farmerId: r.userId,
+        farmId: r.farmId || '',
+        farmName: r.farmName || 'My Farm',
+        cropName: r.cropName,
+        imageUrl: '',
+        scanDate: r.createdAt,
+        result: {
+          crop: r.cropName,
+          disease: r.disease,
+          confidence: r.confidence,
+          riskLevel: (r.overallSeverity || 'LOW').toUpperCase() as any,
+          severity: r.severity || 'Low',
+          warning_signs: r.warning_signs || [],
+          symptoms: [],
+          explanation: '',
+          advice: r.treatment || '',
+          treatment: r.treatment || '',
+          active_ingredient: r.activeIngredient,
+          safety_note: r.safetyNote || '',
+          preventive_measures: [],
+          disclaimer: '',
+        },
+      };
+    }
+    return null;
   },
 
   async analyzeCropImage(payload: ScanUploadPayload): Promise<CropScan> {

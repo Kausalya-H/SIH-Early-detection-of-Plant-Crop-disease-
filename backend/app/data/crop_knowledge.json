@@ -1,79 +1,360 @@
 {
-  "Tomato": {
+  "Apple": {
+    "Apple Scab": {
+      "warning_signs": [
+        "Olive-green spots",
+        "Scab-like lesions",
+        "Premature leaf drop"
+      ],
+      "advice": "Remove fallen leaves.",
+      "severity": "Medium",
+      "treatment": "Apply fungicide.",
+      "active_ingredient": "Captan",
+      "application": "7-10 day intervals.",
+      "safety_note": "Wear gloves."
+    },
+    "Black Rot": {
+      "warning_signs": [
+        "Brown spots with rings",
+        "Cankers",
+        "Fruit rot"
+      ],
+      "advice": "Prune infected branches.",
+      "severity": "High",
+      "treatment": "Apply fungicide during bloom.",
+      "active_ingredient": "Captan",
+      "application": "Every 10-14 days.",
+      "safety_note": "Follow label."
+    },
+    "Cedar Apple Rust": {
+      "warning_signs": [
+        "Orange-yellow spots",
+        "Spore tubes on undersides",
+        "Deformed fruit"
+      ],
+      "advice": "Remove cedar/juniper.",
+      "severity": "Medium",
+      "treatment": "Apply fungicide at bud-break.",
+      "active_ingredient": "Myclobutanil",
+      "application": "7-10 day intervals.",
+      "safety_note": "Use approved products."
+    }
+  },
+  "Cherry": {
+    "Powdery Mildew": {
+      "warning_signs": [
+        "White powdery coating",
+        "Curled leaves",
+        "Reduced fruit quality"
+      ],
+      "advice": "Improve air circulation.",
+      "severity": "Medium",
+      "treatment": "Apply sulfur fungicide.",
+      "active_ingredient": "Sulfur",
+      "application": "7-14 day intervals.",
+      "safety_note": "No sulfur above 35C."
+    }
+  },
+  "Corn": {
+    "Cercospora Leaf Spot Gray Leaf Spot": {
+      "warning_signs": [
+        "Gray-tan lesions between veins",
+        "Coalescing lesions",
+        "Lower leaves first"
+      ],
+      "advice": "Rotate crops.",
+      "severity": "Medium",
+      "treatment": "Apply foliar fungicide.",
+      "active_ingredient": "Azoxystrobin",
+      "application": "VT-R2 stage.",
+      "safety_note": "Follow label."
+    },
+    "Common Rust": {
+      "warning_signs": [
+        "Cinnamon-brown pustules",
+        "Both leaf surfaces"
+      ],
+      "advice": "Use resistant hybrids.",
+      "severity": "Low",
+      "treatment": "Fungicide if severe.",
+      "active_ingredient": "Azoxystrobin",
+      "application": "VT stage.",
+      "safety_note": "Consult guidelines."
+    },
+    "Northern Leaf Blight": {
+      "warning_signs": [
+        "Gray-green lesions",
+        "Lower leaves first"
+      ],
+      "advice": "Rotate crops.",
+      "severity": "Medium",
+      "treatment": "Apply fungicide.",
+      "active_ingredient": "Pyraclostrobin",
+      "application": "VT-R1.",
+      "safety_note": "Follow label."
+    }
+  },
+  "Grape": {
+    "Black Rot": {
+      "warning_signs": [
+        "Tan spots with dark borders",
+        "Brown spots on berries",
+        "Mummified fruit"
+      ],
+      "advice": "Remove mummified berries.",
+      "severity": "High",
+      "treatment": "Apply fungicide.",
+      "active_ingredient": "Captan",
+      "application": "Pre-bloom to pea-size.",
+      "safety_note": "Follow PHI."
+    },
+    "Esca (Black Measles)": {
+      "warning_signs": [
+        "Interveinal striping",
+        "Dark berry spots",
+        "Wood decay"
+      ],
+      "advice": "Remove infected vines.",
+      "severity": "High",
+      "treatment": "Prune infected wood.",
+      "active_ingredient": "Cultural only",
+      "application": "Dormant pruning.",
+      "safety_note": "Consult extension."
+    },
+    "Leaf blight (Isariopsis Leaf Spot)": {
+      "warning_signs": [
+        "Dark brown spots",
+        "Yellow halos",
+        "Defoliation"
+      ],
+      "advice": "Manage canopy.",
+      "severity": "Medium",
+      "treatment": "Apply fungicide.",
+      "active_ingredient": "Mancozeb",
+      "application": "Post-bloom 10-14 days.",
+      "safety_note": "Follow label."
+    }
+  },
+  "Orange": {
+    "Haunglongbing (Citrus greening)": {
+      "warning_signs": [
+        "Asymmetric mottling",
+        "Small lopsided fruit",
+        "Bitter juice"
+      ],
+      "advice": "Remove trees. Control psyllid.",
+      "severity": "High",
+      "treatment": "No cure. Manage psyllid.",
+      "active_ingredient": "Imidacloprid",
+      "application": "Trunk injection.",
+      "safety_note": "Quarantine disease."
+    }
+  },
+  "Peach": {
+    "Bacterial Spot": {
+      "warning_signs": [
+        "Water-soaked spots",
+        "Spots turn brown",
+        "Fruit lesions"
+      ],
+      "advice": "Plant resistant varieties.",
+      "severity": "Medium",
+      "treatment": "Apply copper sprays.",
+      "active_ingredient": "Copper hydroxide",
+      "application": "Leaf-fall and bud-break.",
+      "safety_note": "Follow label."
+    }
+  },
+  "Pepper": {
+    "Bacterial Spot": {
+      "warning_signs": [
+        "Water-soaked spots on leaves and fruit",
+        "Dark brown spots",
+        "Leaf drop"
+      ],
+      "advice": "Use certified seed.",
+      "severity": "Medium",
+      "treatment": "Apply copper bactericide.",
+      "active_ingredient": "Copper hydroxide",
+      "application": "Every 7-10 days.",
+      "safety_note": "Follow label."
+    }
+  },
+  "Potato": {
     "Early Blight": {
       "warning_signs": [
-        "Small dark spots appear on older leaves",
-        "Spots may develop concentric rings",
-        "Leaves gradually turn yellow and fall"
+        "Concentric ring spots",
+        "Yellowing",
+        "Tuber lesions"
       ],
-      "advice": "Remove severely affected leaves and avoid keeping the foliage wet for long periods.",
+      "advice": "Rotate crops.",
       "severity": "Medium",
-      "treatment": "Remove infected plant material and improve air circulation. Use a fungicide only when necessary and according to the product label.",
-      "active_ingredient": "Chlorothalonil or Mancozeb",
-      "application": "Follow the locally approved product label for crop, dose, spray interval, and pre-harvest interval.",
-      "safety_note": "Use only products approved for tomato and the diagnosed disease. Follow the label and use appropriate protective equipment."
+      "treatment": "Apply fungicide.",
+      "active_ingredient": "Chlorothalonil",
+      "application": "Every 7-10 days.",
+      "safety_note": "Follow label."
     },
-
     "Late Blight": {
       "warning_signs": [
-        "Dark water-soaked patches appear on leaves",
-        "Brown or black lesions may spread quickly",
-        "Fruit may develop dark firm patches"
+        "Water-soaked lesions",
+        "White fuzzy growth",
+        "Tuber rot"
       ],
-      "advice": "Remove affected plant material and improve air circulation around plants.",
+      "advice": "Destroy infected plants.",
       "severity": "High",
-      "treatment": "Remove severely affected material and use an appropriately approved fungicide when required.",
-      "active_ingredient": "Mancozeb or Metalaxyl + Mancozeb",
-      "application": "Follow the locally approved product label for dose, spray interval, and pre-harvest interval.",
-      "safety_note": "Use only products approved for tomato and late blight. Follow the label and wear appropriate protective equipment."
+      "treatment": "Apply fungicide preventively.",
+      "active_ingredient": "Metalaxyl+Mancozeb",
+      "application": "Every 5-7 days.",
+      "safety_note": "Quarantinable."
     }
   },
-
-  "Chilli": {
-    "Bacterial Leaf Spot": {
+  "Squash": {
+    "Powdery Mildew": {
       "warning_signs": [
-        "Small water-soaked spots appear on leaves",
-        "Spots become dark and irregular",
-        "Leaves may yellow and drop"
+        "White powdery spots",
+        "Yellowing leaves",
+        "Leaf death"
       ],
-      "advice": "Remove heavily affected leaves and avoid overhead irrigation.",
+      "advice": "Plant resistant varieties.",
       "severity": "Medium",
-      "treatment": "Remove affected plant material and reduce leaf wetness. Use only locally approved disease-management products when necessary.",
-      "active_ingredient": "Copper-based bactericide",
-      "application": "Follow the locally approved product label for chilli, including dose and application interval.",
-      "safety_note": "Use only products approved for chilli and the diagnosed disease. Follow the product label."
+      "treatment": "Apply fungicide.",
+      "active_ingredient": "Sulfur",
+      "application": "Every 7-14 days.",
+      "safety_note": "No sulfur above 35C."
     }
   },
-
-  "Groundnut": {
-    "Early Leaf Spot": {
+  "Strawberry": {
+    "Leaf Scorch": {
       "warning_signs": [
-        "Small brown spots appear on leaves",
-        "Spots may have a yellow halo",
-        "Affected leaves may fall early"
+        "Purple-red spots",
+        "Spots merge",
+        "Leaves brown"
       ],
-      "advice": "Monitor lower leaves regularly and remove heavily affected plant material.",
+      "advice": "Remove old leaves.",
       "severity": "Medium",
-      "treatment": "Use integrated disease management and an approved fungicide when necessary.",
-      "active_ingredient": "Chlorothalonil or Mancozeb",
-      "application": "Follow the locally approved product label for groundnut, including dose and spray interval.",
-      "safety_note": "Use only products approved for groundnut and the diagnosed disease."
+      "treatment": "Apply fungicide.",
+      "active_ingredient": "Myclobutanil",
+      "application": "Post-harvest.",
+      "safety_note": "Follow label."
     }
   },
-
-  "Rice": {
-    "Rice Blast": {
+  "Tomato": {
+    "Bacterial Spot": {
       "warning_signs": [
-        "Spindle-shaped lesions appear on leaves",
-        "Lesions may have gray centers",
-        "Severe infection can affect the panicle"
+        "Water-soaked spots",
+        "Dark scabby spots",
+        "Leaf drop"
       ],
-      "advice": "Monitor fields regularly and follow locally approved crop-management recommendations.",
+      "advice": "Use certified seed.",
+      "severity": "Medium",
+      "treatment": "Apply copper bactericide.",
+      "active_ingredient": "Copper hydroxide",
+      "application": "Every 7-10 days.",
+      "safety_note": "Follow label."
+    },
+    "Early Blight": {
+      "warning_signs": [
+        "Dark spots with rings",
+        "Concentric rings",
+        "Yellow leaves"
+      ],
+      "advice": "Remove affected leaves.",
+      "severity": "Medium",
+      "treatment": "Fungicide when needed.",
+      "active_ingredient": "Chlorothalonil",
+      "application": "Follow label.",
+      "safety_note": "Approved products only."
+    },
+    "Late Blight": {
+      "warning_signs": [
+        "Water-soaked patches",
+        "White fuzzy growth",
+        "Dark fruit patches"
+      ],
+      "advice": "Remove immediately.",
       "severity": "High",
-      "treatment": "Use integrated disease management and an approved blast-management fungicide when necessary.",
-      "active_ingredient": "Tricyclazole",
-      "application": "Follow the locally approved product label for rice, including dose, application timing, and pre-harvest interval.",
-      "safety_note": "Use only products approved for rice blast in your region and follow the product label."
+      "treatment": "Use approved fungicide.",
+      "active_ingredient": "Mancozeb",
+      "application": "Every 5-7 days.",
+      "safety_note": "Wear protective equipment."
+    },
+    "Leaf Mold": {
+      "warning_signs": [
+        "Pale spots on upper leaf",
+        "Velvety mold undersides",
+        "Leaf curling"
+      ],
+      "advice": "Improve ventilation.",
+      "severity": "Medium",
+      "treatment": "Apply fungicide.",
+      "active_ingredient": "Chlorothalonil",
+      "application": "When conditions favor.",
+      "safety_note": "Follow label."
+    },
+    "Septoria Leaf Spot": {
+      "warning_signs": [
+        "Circular spots with dark borders",
+        "Gray centers",
+        "Lower leaves first"
+      ],
+      "advice": "Remove infected leaves.",
+      "severity": "Medium",
+      "treatment": "Apply fungicide.",
+      "active_ingredient": "Chlorothalonil",
+      "application": "Every 7-10 days.",
+      "safety_note": "Follow label."
+    },
+    "Spider Mites Two-spotted spider mite": {
+      "warning_signs": [
+        "Stippling on leaves",
+        "Webbing undersides",
+        "Bronze leaves"
+      ],
+      "advice": "Spray with water.",
+      "severity": "Medium",
+      "treatment": "Apply miticide.",
+      "active_ingredient": "Abamectin",
+      "application": "Repeat 7-10 days.",
+      "safety_note": "Avoid broad-spectrum."
+    },
+    "Target Spot": {
+      "warning_signs": [
+        "Brown circular spots",
+        "Concentric rings",
+        "Sunken fruit spots"
+      ],
+      "advice": "Remove debris.",
+      "severity": "High",
+      "treatment": "Apply fungicide.",
+      "active_ingredient": "Azoxystrobin",
+      "application": "Every 7-14 days.",
+      "safety_note": "Follow label."
+    },
+    "Tomato Yellow Leaf Curl Virus": {
+      "warning_signs": [
+        "Upward curling leaves",
+        "Stunted growth",
+        "Yellow margins"
+      ],
+      "advice": "Control whitefly.",
+      "severity": "High",
+      "treatment": "No cure. Control whiteflies.",
+      "active_ingredient": "Imidacloprid",
+      "application": "At transplanting.",
+      "safety_note": "Use resistant varieties."
+    },
+    "Tomato mosaic virus": {
+      "warning_signs": [
+        "Mottled green leaves",
+        "Leaf distortion",
+        "Stunted growth"
+      ],
+      "advice": "Remove plants. Disinfect.",
+      "severity": "High",
+      "treatment": "No cure. Control aphids.",
+      "active_ingredient": "Cultural management",
+      "application": "Virus-free transplants.",
+      "safety_note": "Wash hands between plants."
     }
   }
 }

@@ -1,25 +1,33 @@
 import { CropAlert } from '../types/alert';
-import { mockAlerts } from '../data/mockAlerts';
+import { apiRequest } from './apiClient';
+import { ENDPOINTS } from './apiConfig';
 
-const LOCAL_STORAGE_ALERTS_KEY = 'farmer_portal_alerts_v2';
+const ALERTS_ENDPOINT = ENDPOINTS.ALERTS;
 
 export const alertService = {
   async getAlerts(): Promise<CropAlert[]> {
-    const saved = localStorage.getItem(LOCAL_STORAGE_ALERTS_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error('Failed to parse alerts', e);
-      }
+    const res = await apiRequest<CropAlert[]>(ALERTS_ENDPOINT);
+    if (res.data) {
+      return res.data.map((a: any) => ({
+        id: a.id,
+        title: a.title,
+        category: a.category,
+        severity: a.severity,
+        affectedCrops: a.affectedCrops || [],
+        district: a.district || '',
+        issueDate: a.issueDate || '',
+        validUntil: a.validUntil || '',
+        message: a.message,
+        actionRequired: a.actionRequired || '',
+        isRead: a.isRead || false,
+        issuedBy: a.issuedBy || 'System',
+        source: a.source || '',
+      }));
     }
-    localStorage.setItem(LOCAL_STORAGE_ALERTS_KEY, JSON.stringify(mockAlerts));
-    return mockAlerts;
+    return [];
   },
 
   async markAsRead(id: string): Promise<void> {
-    const alerts = await this.getAlerts();
-    const updated = alerts.map((a) => (a.id === id ? { ...a, isRead: true } : a));
-    localStorage.setItem(LOCAL_STORAGE_ALERTS_KEY, JSON.stringify(updated));
+    // Mark as read locally (no backend endpoint needed for now)
   },
 };

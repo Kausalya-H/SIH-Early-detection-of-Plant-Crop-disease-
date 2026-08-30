@@ -1,36 +1,49 @@
 import { AdvisoryItem, DiseaseKnowledgeItem, AdvisoryCategory } from '../types/advisory';
-import { mockAdvisories, mockDiseaseLibrary } from '../data/mockAdvisories';
-import { USE_MOCK_DATA, ENDPOINTS } from './apiConfig';
+
+import { ENDPOINTS } from './apiConfig';
 import { apiRequest } from './apiClient';
 
 export const advisoryService = {
   async getAdvisories(category?: AdvisoryCategory): Promise<AdvisoryItem[]> {
-    if (!USE_MOCK_DATA) {
-      const url = category ? `${ENDPOINTS.ADVISORIES}?category=${category}` : ENDPOINTS.ADVISORIES;
-      const res = await apiRequest<AdvisoryItem[]>(url);
-      if (res.data) return res.data;
+    const url = category ? `${ENDPOINTS.ADVISORIES}?category=${category}` : ENDPOINTS.ADVISORIES;
+    const res = await apiRequest<any[]>(url);
+    if (res.data) {
+      return res.data.map((a: any) => ({
+        id: a.id,
+        title: a.title,
+        category: a.category || 'CROP_HEALTH',
+        severity: a.severity || 'MODERATE',
+        crop: a.crop || '',
+        message: a.message,
+        issuedBy: a.issuedBy || 'System',
+        issueDate: a.issueDate || '',
+        validUntil: a.validUntil || '',
+      }));
     }
-    if (category) {
-      return mockAdvisories.filter((a) => a.category === category);
-    }
-    return mockAdvisories;
+    return [];
   },
 
   async getDiseaseLibrary(crop?: string, query?: string): Promise<DiseaseKnowledgeItem[]> {
-    let list = mockDiseaseLibrary;
-    if (crop && crop !== 'ALL') {
-      list = list.filter((d) => d.crop.toLowerCase() === crop.toLowerCase());
+    let url = ENDPOINTS.DISEASE_LIBRARY;
+    const params = new URLSearchParams();
+    if (crop && crop !== 'ALL') params.set('crop', crop);
+    if (query) params.set('query', query);
+    const qs = params.toString();
+    if (qs) url += '?' + qs;
+    const res = await apiRequest<any[]>(url);
+    if (res.data) {
+      return res.data.map((d: any) => ({
+        id: d.id,
+        crop: d.crop,
+        diseaseName: d.diseaseName,
+        commonSymptoms: d.commonSymptoms || [],
+        prevention: d.prevention || '',
+        treatment: d.treatment || '',
+        causalAgent: d.causalAgent || '',
+        category: d.category || '',
+      }));
     }
-    if (query && query.trim() !== '') {
-      const q = query.toLowerCase();
-      list = list.filter(
-        (d) =>
-          d.diseaseName.toLowerCase().includes(q) ||
-          d.crop.toLowerCase().includes(q) ||
-          d.commonSymptoms.some((s) => s.toLowerCase().includes(q))
-      );
-    }
-    return list;
+    return [];
   },
 
   async getDiseaseById(id: string): Promise<DiseaseKnowledgeItem | null> {

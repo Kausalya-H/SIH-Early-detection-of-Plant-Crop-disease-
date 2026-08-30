@@ -34,11 +34,13 @@ export const DiseaseDetectionPage: React.FC = () => {
   const [apiError, setApiError] = useState<string | null>(null);
 
   useEffect(() => {
-    farmService.getFarms().then((data) => {
-      setFarms(data);
-      if (data.length > 0) {
-        setSelectedFarmId(data[0].id);
-        setSelectedCrop(data[0].crop.name);
+    farmService.getMyFarms().then(({ data }) => {
+      if (data) {
+        setFarms(data);
+        if (data.length > 0) {
+          setSelectedFarmId(data[0]._id);
+          setSelectedCrop(data[0].crops?.[0]?.cropName || 'Unknown');
+        }
       }
     });
   }, []);
@@ -145,14 +147,14 @@ export const DiseaseDetectionPage: React.FC = () => {
     await new Promise((r) => setTimeout(r, 400));
     setAnalyzingStep(2);
 
-    const selectedFarm = farms.find((f) => f.id === selectedFarmId);
+    const selectedFarm = farms.find((f) => f._id === selectedFarmId);
     const farmName = selectedFarm?.name || 'Main Plot';
 
     let backendData = null;
 
     // 1. Try real FastAPI backend POST /disease/predict
     if (selectedFile) {
-      const { data, error } = await diagnosisService.predictDisease(selectedFile, selectedCrop);
+      const { data, error } = await diagnosisService.predictDisease(selectedFile, selectedCrop, selectedFarmId);
       if (data) {
         backendData = data;
       } else if (error) {

@@ -8,13 +8,17 @@ interface FarmSummaryCardsProps {
   healthyPercentage?: number;
   activeAlertsCount?: number;
   recentDiagnosesCount?: number;
+  totalAcres?: number;
+  totalCrops?: number;
 }
 
 export const FarmSummaryCards: React.FC<FarmSummaryCardsProps> = ({
-  totalFarms = 4,
-  healthyPercentage = 86,
-  activeAlertsCount = 3,
-  recentDiagnosesCount = 12,
+  totalFarms = 0,
+  healthyPercentage = 100,
+  activeAlertsCount = 0,
+  recentDiagnosesCount = 0,
+  totalAcres = 0,
+  totalCrops = 0,
 }) => {
   const { t } = useLanguage();
 
@@ -25,18 +29,18 @@ export const FarmSummaryCards: React.FC<FarmSummaryCardsProps> = ({
         title={t.dashboard.myFarms}
         value={totalFarms}
         icon={<Sprout className="h-6 w-6 text-agri-700" />}
-        subtitle="12.5 Total Acres"
-        trend={{ value: '4 Registered Plots', isPositive: true }}
+        subtitle={totalAcres > 0 ? totalAcres.toFixed(1) + ' Total Acres' : 'No farms registered'}
+        trend={totalCrops > 0 ? { value: totalCrops + ' Crops Planted', isPositive: true } : { value: 'Register your first farm', isPositive: true }}
         colorScheme="green"
       />
 
       {/* 2. Healthy Crops */}
       <StatCard
         title={t.dashboard.healthyCrops}
-        value={`${healthyPercentage}%`}
+        value={healthyPercentage + '%'}
         icon={<ShieldCheck className="h-6 w-6 text-emerald-700" />}
-        subtitle="3 Plots Optimal"
-        trend={{ value: '+4% vs last month', isPositive: true }}
+        subtitle={totalFarms > 0 ? Math.round((healthyPercentage / 100) * totalFarms) + ' Plots Optimal' : 'No data yet'}
+        trend={healthyPercentage >= 80 ? { value: 'Good health status', isPositive: true } : { value: 'Needs attention', isPositive: false }}
         colorScheme="emerald"
       />
 
@@ -45,8 +49,8 @@ export const FarmSummaryCards: React.FC<FarmSummaryCardsProps> = ({
         title={t.dashboard.activeAlerts}
         value={activeAlertsCount}
         icon={<AlertTriangle className="h-6 w-6 text-orange-600" />}
-        subtitle="2 Outbreaks, 1 Weather"
-        trend={{ value: 'Action Required', isPositive: false }}
+        subtitle={activeAlertsCount > 0 ? activeAlertsCount + ' Reports pending review' : 'No active alerts'}
+        trend={activeAlertsCount > 0 ? { value: 'Action Required', isPositive: false } : { value: 'All clear', isPositive: true }}
         colorScheme="orange"
       />
 
@@ -56,7 +60,7 @@ export const FarmSummaryCards: React.FC<FarmSummaryCardsProps> = ({
         value={recentDiagnosesCount}
         icon={<Microscope className="h-6 w-6 text-blue-700" />}
         subtitle="Latest 48 hrs"
-        trend={{ value: '94.8% AI Confidence', isPositive: true }}
+        trend={recentDiagnosesCount > 0 ? { value: recentDiagnosesCount + ' scans completed', isPositive: true } : { value: 'No scans yet', isPositive: true }}
         colorScheme="blue"
       />
     </div>

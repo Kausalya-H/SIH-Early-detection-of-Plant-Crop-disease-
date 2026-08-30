@@ -1,9 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { FarmerProfile } from '../types/farmer';
-import { initialMockFarmer } from '../data/mockFarmer';
-import { farmerService } from '../services/farmerService';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { authService, RegisterFullParams } from "../services/authService";
 
-export type UserRole = 'FARMER' | 'OFFICER' | 'ADMIN';
+export type UserRole = "FARMER" | "OFFICER" | "ADMIN";
 
 export interface BaseUser {
   id: string;
@@ -11,57 +9,30 @@ export interface BaseUser {
   role: UserRole;
   phone?: string;
   email?: string;
-  designation?: string;
-  jurisdiction?: string;
-  village?: string;
-  taluka?: string;
-  district?: string;
-  state?: string;
-  [key: string]: any;
-}
-
-export type AuthUser = (FarmerProfile & BaseUser) | BaseUser;
-
-interface LoginCredentials {
-  phone?: string;
-  email?: string;
-  name?: string;
-  officerId?: string;
-  adminId?: string;
-  password?: string;
-  otp?: string;
-  jurisdiction?: string;
+  token?: string;
   [key: string]: any;
 }
 
 interface AuthContextType {
-  user: AuthUser | null;
+  user: BaseUser | null;
   role: UserRole | null;
   isAuthenticated: boolean;
-  login: (role: UserRole, credentials?: LoginCredentials) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  register: (name: string, email: string, password: string, phone?: string) => Promise<{ success: boolean; error?: string }>;
+  registerFull: (params: RegisterFullParams) => Promise<{ success: boolean; error?: string }>;
+  loginAsRole: (role: UserRole) => void;
   logout: () => void;
-  updateProfile: (updated: Partial<AuthUser>) => Promise<void>;
-  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const AUTH_STORAGE_KEY = 'krishi_auth_session';
+const AUTH_KEY = "krishi_auth_session";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<AuthUser | null>(() => {
-    const saved = localStorage.getItem(AUTH_STORAGE_KEY);
+  const [user, setUser] = useState<BaseUser | null>(() => {
+    const saved = localStorage.getItem(AUTH_KEY);
     if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed && parsed.role) {
-          return parsed;
-        }
-      } catch (e) {
-        console.error('Failed to parse saved auth session', e);
-      }
+      try { return JSON.parse(saved); } catch {}
     }
-    // No default auto-login so root "/" displays the common login gateway
     return null;
   });
 
@@ -70,112 +41,54 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user));
-      // Also maintain backward-compatibility with farmer_portal_user key
-      if (user.role === 'FARMER') {
-        localStorage.setItem('farmer_portal_user', JSON.stringify(user));
-      }
+      localStorage.setItem(AUTH_KEY, JSON.stringify(user));
     } else {
-      localStorage.removeItem(AUTH_STORAGE_KEY);
-      localStorage.removeItem('farmer_portal_user');
+      localStorage.removeItem(AUTH_KEY);
     }
   }, [user]);
 
-  const login = async (selectedRole: UserRole, credentials: LoginCredentials = {}): Promise<boolean> => {
-    if (selectedRole === 'FARMER') {
-      const farmerData: FarmerProfile & BaseUser = {
-        ...initialMockFarmer,
-        id: credentials.phone ? `MH-${credentials.phone.slice(-6)}` : initialMockFarmer.id,
-        name: credentials.name || initialMockFarmer.name,
-        phone: credentials.phone || initialMockFarmer.phone,
-        email: credentials.email || initialMockFarmer.email,
-        role: 'FARMER',
-        designation: 'Progressive Farmer / Cultivator',
-        jurisdiction: `${initialMockFarmer.village}, ${initialMockFarmer.district}`,
-      };
-
-      try {
-        const saved = await farmerService.updateProfile(farmerData);
-        setUser({ ...farmerData, ...saved, role: 'FARMER' });
-      } catch {
-        setUser(farmerData);
-      }
-      return true;
+  const login = async (email: string, password: string) => {
+    const res = await authService.login({ email, password });
+    if (res.data) {
+      setUser({ ...res.data.user, role: "FARMER", token: res.data.token });
+      return { success: true };
     }
-
-    if (selectedRole === 'OFFICER') {
-      const officerUser: BaseUser = {
-        id: credentials.officerId || 'OFF-PUNE-7402',
-        name: credentials.name || 'Dr. Rajesh Deshmukh',
-        role: 'OFFICER',
-        email: credentials.email || 'rajesh.deshmukh@agri.gov.in',
-        phone: credentials.phone || '+91 94220 88123',
-        designation: 'District Agriculture Officer (DAO)',
-        jurisdiction: credentials.jurisdiction || 'Pune Division & Baramati Sub-Division, Maharashtra',
-        state: 'Maharashtra',
-        district: 'Pune',
-      };
-      setUser(officerUser);
-      return true;
-    }
-
-    if (selectedRole === 'ADMIN') {
-      const adminUser: BaseUser = {
-        id: credentials.adminId || 'ADMIN-CENTRAL-01',
-        name: credentials.name || 'Priya Sharma',
-        role: 'ADMIN',
-        email: credentials.email || 'admin@krishirakshak.gov.in',
-        phone: credentials.phone || '+91 91100 22001',
-        designation: 'Senior Agricultural AI Governance Lead',
-        jurisdiction: 'National Central AI Node, New Delhi (ICAR-NIC)',
-        state: 'Delhi',
-        district: 'New Delhi',
-      };
-      setUser(adminUser);
-      return true;
-    }
-
-    return false;
+    return { success: false, error: res.error || "Login failed" };
   };
 
-  const logout = () => {
-    setUser(null);
+  const register = async (name: string, email: string, password: string, phone?: string) => {
+    const res = await authService.register({ name, email, password, phone });
+    if (res.data) {
+      setUser({ ...res.data.user, role: "FARMER", token: res.data.token });
+      return { success: true };
+    }
+    return { success: false, error: res.error || "Registration failed" };
   };
 
-  const updateProfile = async (updated: Partial<AuthUser>) => {
-    if (!user) return;
-    const updatedUser = { ...user, ...updated } as AuthUser;
-    if (updatedUser.role === 'FARMER') {
-      try {
-        const saved = await farmerService.updateProfile(updatedUser as FarmerProfile);
-        setUser({ ...updatedUser, ...saved });
-        return;
-      } catch (err) {
-        console.warn('Backend updateProfile notice:', err);
-      }
+  const loginAsRole = (selectedRole: UserRole) => {
+    // Quick role switch for demo (officer/admin still mock)
+    const mockUsers: Record<string, BaseUser> = {
+      OFFICER: { id: "OFF-01", name: "Dr. Rajesh Deshmukh", role: "OFFICER", email: "rajesh@agri.gov.in" },
+      ADMIN: { id: "ADMIN-01", name: "Priya Sharma", role: "ADMIN", email: "admin@krishirakshak.gov.in" },
+    };
+    if (mockUsers[selectedRole]) {
+      setUser(mockUsers[selectedRole]);
     }
-    setUser(updatedUser);
   };
 
-  const refreshProfile = async () => {
-    if (user?.role === 'FARMER') {
-      const latest = await farmerService.getProfile();
-      setUser({ ...user, ...latest, role: 'FARMER' });
+
+  const registerFull = async (params: RegisterFullParams) => {
+    const res = await authService.registerFull(params);
+    if (res.data) {
+      setUser({ ...res.data.user, role: "FARMER", token: res.data.token });
+      return { success: true };
     }
+    return { success: false, error: res.error || "Registration failed" };
   };
+  const logout = () => setUser(null);
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        role,
-        isAuthenticated,
-        login,
-        logout,
-        updateProfile,
-        refreshProfile,
-      }}
-    >
+    <AuthContext.Provider value={{ user, role, isAuthenticated, login, register, registerFull, loginAsRole, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -183,8 +96,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (!context) throw new Error("useAuth must be used within AuthProvider");
   return context;
 };
