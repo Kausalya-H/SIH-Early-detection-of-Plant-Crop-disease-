@@ -40,7 +40,7 @@ CLASS_NAMES_PATH = (
 # that you want to test.
 
 IMAGE_PATH = Path(
-    r"C:\Users\shiva\OneDrive\Pictures\Screenshots\Screenshot 2026-08-29 161428.png"
+    r"C:\Users\shiva\OneDrive\Documents\ml\plantvillage dataset\color\Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot\0a403456-5c5e-4aad-aa89-a118175c6ddd___RS_GLSp 4501.JPG"
 )
 IMAGE_SIZE = (224, 224)
 
@@ -221,7 +221,7 @@ for action in recommendation[
 
 
 # ============================================================
-# 8. DISPLAY MAIN RESULT
+# 8. COMPLETE DISEASE + PESTICIDE RECOMMENDATION
 # ============================================================
 
 readable_disease_name = predicted_class.replace(
@@ -232,49 +232,114 @@ readable_disease_name = predicted_class.replace(
     " "
 )
 
-print("\n" + "=" * 60)
-print("PREDICTION RESULT")
-print("=" * 60)
+# Pass BOTH disease and confidence
+recommendation = get_recommendation(
+    predicted_class,
+    confidence
+)
 
-print("Predicted class:", predicted_class)
-recommendation = get_recommendation(predicted_class)
-print(f"\nPredicted Disease : {recommendation['disease']}")
-print("Readable result:", readable_disease_name)
-print(f"Confidence: {confidence:.2f}%")
-# Display Phase 21 risk classification
-print("\nRISK CLASSIFICATION")
-print("=" * 60)
+print("\n" + "=" * 70)
+print("AI CROP DISEASE RECOMMENDATION")
+print("=" * 70)
 
 print(
-    f"Risk level: "
-    f"{risk['risk_level']}"
+    f"\nCrop             : "
+    f"{recommendation['crop']}"
 )
 
 print(
-    f"Risk score: "
-    f"{risk['risk_score']}"
+    f"Disease          : "
+    f"{recommendation['disease']}"
 )
 
 print(
-    f"Affected area: "
-    f"{risk['affected_area_percent']}%"
+    f"Confidence       : "
+    f"{confidence:.2f}%"
 )
 
 print(
-    f"Expert review required: "
-    f"{risk['requires_expert_review']}"
+    f"Disease Status   : "
+    f"{recommendation['status']}"
 )
 
-print("\nRisk reasons:")
+print(
+    f"Risk Level       : "
+    f"{recommendation['risk_level']}"
+)
 
-for reason in risk["reasons"]:
-    print(f"- {reason}")
 
-print("\nRecommended action:")
-print(risk["recommended_action"])
+# ------------------------------------------------------------
+# CAUSE
+# ------------------------------------------------------------
 
-print("=" * 60)
+print("\nCAUSE")
+print("-" * 70)
 
+print(
+    recommendation["cause"]
+)
+
+
+# ------------------------------------------------------------
+# TREATMENT
+# ------------------------------------------------------------
+
+print("\nTREATMENT / MANAGEMENT")
+print("-" * 70)
+
+for index, treatment in enumerate(
+    recommendation["treatment"],
+    start=1
+):
+    print(
+        f"{index}. {treatment}"
+    )
+
+
+# ------------------------------------------------------------
+# PESTICIDE
+# ------------------------------------------------------------
+
+print("\nRECOMMENDED PESTICIDE / FUNGICIDE")
+print("-" * 70)
+
+for index, pesticide in enumerate(
+    recommendation["pesticide"],
+    start=1
+):
+    print(
+        f"{index}. {pesticide}"
+    )
+
+
+# ------------------------------------------------------------
+# PREVENTION
+# ------------------------------------------------------------
+
+print("\nPREVENTION")
+print("-" * 70)
+
+for index, prevention in enumerate(
+    recommendation["prevention"],
+    start=1
+):
+    print(
+        f"{index}. {prevention}"
+    )
+
+
+# ------------------------------------------------------------
+# NLP FARMER RESPONSE
+# ------------------------------------------------------------
+
+print("\nFARMER-FRIENDLY RESPONSE")
+print("-" * 70)
+
+print(
+    recommendation["farmer_message"]
+)
+
+print("=" * 70)
 
 # ============================================================
 # 9. DISPLAY TOP THREE PREDICTIONS
