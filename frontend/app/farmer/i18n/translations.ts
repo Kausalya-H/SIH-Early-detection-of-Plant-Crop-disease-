@@ -41,14 +41,14 @@ export const SUPPORTED_LANGUAGES: SupportedLanguageInfo[] = [
   { code: 'ks', name: 'Kashmiri', nativeName: 'कॉशुर (كٲشُر)', desc: 'کٲشُر زبان' },
   { code: 'kok', name: 'Konkani', nativeName: 'कोंकणी', desc: 'कोंकणी भास' },
   { code: 'mai', name: 'Maithili', nativeName: 'मैथिली', desc: 'मैथिली भाषा' },
-  { code: 'ml', name: 'Malayalam', nativeName: 'മലയാളം', desc: 'മലയാളം ഇന്റർഫೇಸ್' },
+  { code: 'ml', name: 'Malayalam', nativeName: 'മലയാളം', desc: 'മലയാളം ഇന്റർഫേസ്' },
   { code: 'mni', name: 'Manipuri', nativeName: 'মৈতৈলোন্ (Manipuri)', desc: 'মৈতৈলোন্' },
   { code: 'ne', name: 'Nepali', nativeName: 'नेपाली', desc: 'नेपाली भाषा' },
   { code: 'or', name: 'Odia', nativeName: 'ଓଡ଼ିଆ', desc: 'ଓଡ଼ିଆ ଇଣ୍ଟରଫେସ' },
   { code: 'pa', name: 'Punjabi', nativeName: 'ਪੰਜਾਬੀ', desc: 'ਪੰਜਾਬੀ ਇੰਟਰਫੇਸ' },
   { code: 'sat', name: 'Santhali', nativeName: 'संथाली (ᱥᱟᱱᱛᱟᱲᱤ)', desc: 'ᱥᱟᱱᱛᱟᱲᱤ ᱯᱟᱹᱨᱥᱤ' },
   { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்', desc: 'தமிழ் இடைமுகம்' },
-  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు', desc: 'తెలుగు ఇంటర్ఫೇಸ್' },
+  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు', desc: 'తెలుగు ಇంటర్ಫೇಸ್' },
   { code: 'ur', name: 'Urdu', nativeName: 'اردو', desc: 'اردو انٹرفیس' },
 ];
 
@@ -59,6 +59,7 @@ export interface TranslationDict {
     dashboard: string;
     myFarms: string;
     diseaseDetection: string;
+    advisory?: string;
     alerts: string;
     analytics: string;
     settings: string;
@@ -108,6 +109,7 @@ const enDict: TranslationDict = {
     dashboard: 'Dashboard',
     myFarms: 'My Farms',
     diseaseDetection: 'Disease Detection',
+    advisory: 'AI Crop Doctor',
     alerts: 'Alerts',
     analytics: 'Analytics',
     settings: 'Settings',
@@ -171,8 +173,12 @@ const enDict: TranslationDict = {
     selectFarm: 'Target Farm / Plot',
   },
   advisory: {
-    title: 'Regional Agricultural Advisories',
-    subtitle: 'Seasonal weather warnings & crop management protocols',
+    title: 'AI Agricultural Doctor & Crop Advisory',
+    subtitle: 'Interact with the natural language AI assistant for real-time pathology diagnosis, chemical treatments, and regional seasonal guidelines',
+    tabAiDoctor: 'AI Crop Doctor (NLP)',
+    tabAdvisories: 'Seasonal Advisories',
+    tabDiseaseLibrary: 'Disease Library',
+    searchPlaceholder: 'Search advisories by crop or management practice...',
     viewAll: 'View All Advisories',
     highPriority: 'High Priority',
   },
@@ -216,6 +222,7 @@ const hiDict: TranslationDict = {
     dashboard: 'डैशबोर्ड',
     myFarms: 'मेरे खेत',
     diseaseDetection: 'रोग पहचान',
+    advisory: 'एआई फसल डॉक्टर',
     alerts: 'चेतावनी',
     analytics: 'एनालिटिक्स',
     settings: 'सेटिंग्स',
@@ -257,12 +264,13 @@ const hiDict: TranslationDict = {
 };
 
 const mrDict: TranslationDict = {
-  appName: 'कृषी रक्षक एआय — शेतकरी पोर्टल',
+  appName: 'कृषी रक्षक एआई — शेतकरी पोर्टल',
   tagline: 'पीक रोग व कीड प्रादुर्भाव लवकर ओळख व व्यवस्थापन प्रणाली',
   nav: {
     dashboard: 'डॅशबोर्ड',
     myFarms: 'माझी शेती',
     diseaseDetection: 'रोग निदान',
+    advisory: 'एआय पीक डॉक्टर',
     alerts: 'सतर्कता सूचना',
     analytics: 'अनालिटिक्स',
     settings: 'सेटिंग्ज',

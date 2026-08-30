@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   Headphones,
   ExternalLink,
+  Bot,
 } from 'lucide-react';
 
 interface FarmerSidebarProps {
@@ -48,8 +49,15 @@ export const FarmerSidebar: React.FC<FarmerSidebarProps> = ({ onRequestOfficerSu
       to: '/farmer/disease-detection',
       label: t.nav.diseaseDetection,
       icon: <ScanLine className="h-5 w-5 shrink-0" />,
-      badge: 'AI Diagnostic',
+      badge: 'Vision AI',
       isHighlight: true,
+    },
+    {
+      to: '/farmer/advisory',
+      label: 'AI Crop Doctor',
+      icon: <Bot className="h-5 w-5 shrink-0" />,
+      badge: 'NLP AI',
+      badgeColor: 'bg-emerald-600 text-white',
     },
     {
       to: '/farmer/alerts',

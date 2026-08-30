@@ -8,6 +8,7 @@ import { FarmerLayout } from './components/layout/FarmerLayout';
 import { DashboardPage } from './pages/DashboardPage';
 import { MyFarmsPage } from './pages/MyFarmsPage';
 import { DiseaseDetectionPage } from './pages/DiseaseDetectionPage';
+import { AdvisoryPage } from './pages/AdvisoryPage';
 import { AlertsPage } from './pages/AlertsPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { SettingsPage } from './pages/SettingsPage';
@@ -32,6 +33,8 @@ export const App: React.FC = () => {
                 <Route path="farms" element={<MyFarmsPage />} />
                 <Route path="diagnosis" element={<DiseaseDetectionPage />} />
                 <Route path="disease-detection" element={<DiseaseDetectionPage />} />
+                <Route path="advisory" element={<AdvisoryPage />} />
+                <Route path="ai-assistant" element={<AdvisoryPage />} />
                 <Route path="alerts" element={<AlertsPage />} />
                 <Route path="analytics" element={<AnalyticsPage />} />
                 <Route path="settings" element={<SettingsPage />} />

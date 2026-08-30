@@ -4,7 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routes.farmer import router as farmer_router
 from app.routes.disease import router as disease_router
 from app.routes.admin import router as admin_router
+<<<<<<< HEAD
 from app.routes.weather import router as weather_router
+=======
+from app.routes.nlp import router as nlp_router
+>>>>>>> b85a654 (Integrate NLP crop doctor)
 
 
 app = FastAPI(
@@ -31,7 +35,11 @@ app.add_middleware(
 app.include_router(farmer_router)
 app.include_router(disease_router)
 app.include_router(admin_router)
+<<<<<<< HEAD
 app.include_router(weather_router)
+=======
+app.include_router(nlp_router)
+>>>>>>> b85a654 (Integrate NLP crop doctor)
 
 
 @app.get("/")
@@ -47,4 +55,12 @@ def root():
 def health_check():
     return {
         "status": "healthy"
+    }
+
+
+@app.get("/advisories")
+def get_advisories(category: str = None):
+    from app.services.nlp_service import get_all_advisories
+    return {
+        "advisories": get_all_advisories(category)
     }

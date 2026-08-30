@@ -22,6 +22,12 @@ export const ENDPOINTS = {
   DISEASE_PREDICT: `${API_BASE_URL}/disease/predict`,
   DISEASE_REPORT: `${API_BASE_URL}/disease/report`,
 
+  // NLP Agricultural Assistant endpoints (FastAPI /nlp)
+  NLP_QUERY: `${API_BASE_URL}/nlp/query`,
+  NLP_ASK: `${API_BASE_URL}/nlp/ask`,
+  NLP_SAMPLES: `${API_BASE_URL}/nlp/sample-queries`,
+  NLP_HEALTH: `${API_BASE_URL}/nlp/health`,
+
   // Local fallback endpoints
   FARMS: `${API_BASE_URL}/farms`,
   ALERTS: `${API_BASE_URL}/alerts`,

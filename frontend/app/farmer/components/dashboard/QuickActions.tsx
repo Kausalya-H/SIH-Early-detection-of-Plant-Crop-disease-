@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Microscope, Sprout, Bell, BarChart3, HelpCircle, FileSpreadsheet } from 'lucide-react';
+import { Microscope, Sprout, Bell, BarChart3, Bot } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
 export const QuickActions: React.FC = () => {
@@ -10,26 +10,26 @@ export const QuickActions: React.FC = () => {
     {
       to: '/farmer/disease-detection',
       label: '🔬 Diagnose Crop',
-      desc: 'Take photo or upload leaf for instant AI scan',
+      desc: 'Take photo or upload leaf for instant AI vision scan',
       color: 'bg-agri-700 text-white hover:bg-agri-800 border-agri-800',
+    },
+    {
+      to: '/farmer/advisory',
+      label: '🤖 Ask AI Crop Doctor',
+      desc: 'Natural language crop symptom Q&A & spray advice',
+      color: 'bg-white text-emerald-800 hover:bg-emerald-50 border-emerald-300',
     },
     {
       to: '/farmer/farms',
       label: '🌾 View My Farms',
       desc: 'Check crop stages, health & plot acreage',
-      color: 'bg-white text-agri-800 hover:bg-agri-50 border-stone-300',
+      color: 'bg-white text-slate-700 hover:bg-stone-50 border-stone-300',
     },
     {
       to: '/farmer/alerts',
       label: '🔔 View Alerts',
       desc: '3 regional warnings for Solanaceous & Cotton',
       color: 'bg-white text-orange-700 hover:bg-orange-50 border-stone-300',
-    },
-    {
-      to: '/farmer/analytics',
-      label: '📊 Farm Analytics',
-      desc: 'Productivity trends, disease rates & historical data',
-      color: 'bg-white text-slate-700 hover:bg-stone-50 border-stone-300',
     },
   ];
 

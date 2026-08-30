@@ -20,6 +20,14 @@ export default defineConfig({
         target: 'http://localhost:8000',
         changeOrigin: true,
       },
+      '/nlp': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/advisories': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
       '/health': {
         target: 'http://localhost:8000',
         changeOrigin: true,
