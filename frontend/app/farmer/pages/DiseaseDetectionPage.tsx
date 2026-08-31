@@ -34,92 +34,27 @@ export const DiseaseDetectionPage: React.FC = () => {
   const [apiError, setApiError] = useState<string | null>(null);
 
   useEffect(() => {
-    farmService.getMyFarms().then(({ data }) => {
-      if (data) {
-        setFarms(data);
-        if (data.length > 0) {
-          setSelectedFarmId(data[0]._id);
-          setSelectedCrop(data[0].crops?.[0]?.cropName || 'Unknown');
-        }
+    farmService.getFarms().then((data) => {
+      setFarms(data);
+      if (data.length > 0) {
+        setSelectedFarmId(data[0].id);
+        setSelectedCrop(data[0].crop.name);
       }
     });
   }, []);
 
-  const sampleImages = [
-    {
-      label: 'Tomato Early Blight',
-      crop: 'Tomato',
-      url: 'https://images.unsplash.com/photo-1592417817098-8f3d6eb22509?w=600&auto=format&fit=crop&q=80',
-      disease: 'Early Blight',
-      confidence: 96.4,
-      riskLevel: 'MODERATE' as RiskLevel,
-      symptoms: [
-        'Small dark spots appear on older leaves',
-        'Spots may develop concentric rings',
-        'Leaves gradually turn yellow and fall',
-      ],
-      advice: 'Remove severely affected leaves and avoid keeping the foliage wet for long periods.',
-      treatment: 'Remove infected plant material and improve air circulation. Use a fungicide only when necessary and according to product label.',
-      active_ingredient: 'Chlorothalonil or Mancozeb',
-      application: 'Follow the locally approved product label for crop, dose, spray interval, and pre-harvest interval.',
-      safety_note: 'Use only products approved for tomato and the diagnosed disease. Follow the label and use appropriate protective equipment.',
-      chemical: ['Mancozeb 75% WP @ 2.5 g/L', 'Chlorothalonil 75% WP @ 2 g/L'],
-      biological: ['Trichoderma viride spray @ 5 g/L', 'Neem cake soil enrichment'],
-    },
-    {
-      label: 'Chilli Bacterial Spot',
-      crop: 'Chilli',
-      url: 'https://images.unsplash.com/photo-1588644525127-06e22c954e7d?w=600&auto=format&fit=crop&q=80',
-      disease: 'Bacterial Leaf Spot',
-      confidence: 93.1,
-      riskLevel: 'HIGH' as RiskLevel,
-      symptoms: [
-        'Small water-soaked spots appear on leaves',
-        'Spots become dark and irregular',
-        'Leaves may yellow and drop',
-      ],
-      advice: 'Remove heavily affected leaves and avoid overhead irrigation.',
-      treatment: 'Remove affected plant material and reduce leaf wetness. Use only locally approved disease-management products when necessary.',
-      active_ingredient: 'Copper-based bactericide',
-      application: 'Follow the locally approved product label for chilli, including dose and application interval.',
-      safety_note: 'Use only products approved for chilli and the diagnosed disease. Follow the product label.',
-      chemical: ['Copper Oxychloride 50% WP @ 2.5 g/L + Streptocycline @ 0.1 g/L'],
-      biological: ['Pseudomonas fluorescens foliar spray @ 5 g/L', 'Yellow sticky traps (15/acre)'],
-    },
-    {
-      label: 'Groundnut Early Spot',
-      crop: 'Groundnut',
-      url: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=600&auto=format&fit=crop&q=80',
-      disease: 'Early Leaf Spot',
-      confidence: 94.5,
-      riskLevel: 'MODERATE' as RiskLevel,
-      symptoms: [
-        'Small brown spots appear on leaves',
-        'Spots may have a yellow halo',
-        'Affected leaves may fall early',
-      ],
-      advice: 'Monitor lower leaves regularly and remove heavily affected plant material.',
-      treatment: 'Use integrated disease management and an approved fungicide when necessary.',
-      active_ingredient: 'Chlorothalonil or Mancozeb',
-      application: 'Follow the locally approved product label for groundnut, including dose and spray interval.',
-      safety_note: 'Use only products approved for groundnut and the diagnosed disease.',
-      chemical: ['Mancozeb 75% WP @ 2 g/L'],
-      biological: ['Trichoderma harzianum seed treatment & foliar spray'],
-    },
-  ];
+  const sampleImages: { label: string; crop: string; url: string }[] = []
 
-  const handleSelectSample = async (sample: typeof sampleImages[0]) => {
+  const handleSelectSample = async (sample: { label: string; crop: string; url: string }) => {
     setPreviewImage(sample.url);
     setSelectedCrop(sample.crop);
     setApiError(null);
-
-    // Create a dummy image blob so it can be sent to real backend endpoint
+    setResult(null);
     try {
       const response = await fetch(sample.url);
       const blob = await response.blob();
       setSelectedFile(blob);
     } catch {
-      // Fallback 1px placeholder blob
       const emptyBlob = new Blob(['sample-crop-image'], { type: 'image/jpeg' });
       setSelectedFile(emptyBlob);
     }
@@ -147,14 +82,16 @@ export const DiseaseDetectionPage: React.FC = () => {
     await new Promise((r) => setTimeout(r, 400));
     setAnalyzingStep(2);
 
-    const selectedFarm = farms.find((f) => f._id === selectedFarmId);
+    const selectedFarm = farms.find((f) => f.id === selectedFarmId);
     const farmName = selectedFarm?.name || 'Main Plot';
 
     let backendData = null;
 
     // 1. Try real FastAPI backend POST /disease/predict
     if (selectedFile) {
-      const { data, error } = await diagnosisService.predictDisease(selectedFile, selectedCrop, selectedFarmId);
+      const farmLat = selectedFarm ? (selectedFarm as any).lat || (selectedFarm as any).latitude || null : null;
+      const farmLng = selectedFarm ? (selectedFarm as any).lng || (selectedFarm as any).longitude || null : null;
+      const { data, error } = await diagnosisService.predictDisease(selectedFile, selectedCrop, farmLat ?? undefined, farmLng ?? undefined);
       if (data) {
         backendData = data;
       } else if (error) {
@@ -207,28 +144,22 @@ export const DiseaseDetectionPage: React.FC = () => {
       setIsAnalyzing(false);
       setResult(record);
     } else {
-      // 2. Fallback to matched sample knowledge base
-      const matchedSample = sampleImages.find((s) => s.crop === selectedCrop) || sampleImages[0];
+      // 2. Fallback when backend is not available
       const record = await diagnosisService.addDiagnosis({
         farmId: selectedFarmId,
         farmName,
         cropName: selectedCrop,
-        imageUrl: previewImage || matchedSample.url,
-        diseaseDetected: matchedSample.disease,
-        confidence: matchedSample.confidence,
-        riskLevel: matchedSample.riskLevel,
-        symptoms: matchedSample.symptoms,
-        advice: matchedSample.advice,
-        treatmentText: matchedSample.treatment,
-        active_ingredient: matchedSample.active_ingredient,
-        application: matchedSample.application,
-        safety_note: matchedSample.safety_note,
-        treatment: {
-          chemicalControl: matchedSample.chemical,
-          biologicalControl: matchedSample.biological,
-          culturalPractices: [matchedSample.advice],
-          safetyPrecautions: [matchedSample.safety_note],
-        },
+        imageUrl: previewImage || '',
+        diseaseDetected: 'Could not connect to backend. Ensure FastAPI is running at http://localhost:8000.',
+        confidence: 0,
+        riskLevel: 'LOW' as RiskLevel,
+        symptoms: ['Backend server not reachable'],
+        advice: 'Start the backend server and try again.',
+        treatmentText: '',
+        active_ingredient: '',
+        application: '',
+        safety_note: '',
+        treatment: { chemicalControl: [], biologicalControl: [], culturalPractices: [], safetyPrecautions: [] },
         status: 'PENDING',
         isLiveBackendResult: false,
       });
@@ -245,7 +176,10 @@ export const DiseaseDetectionPage: React.FC = () => {
     }
 
     setIsDownloadingPdf(true);
-    const locationString = user ? `${user.village}, ${user.taluka}, ${user.district}` : 'Baramati, Pune';
+    const locationString = user ? [user.village, user.taluka, user.district, user.state].filter(Boolean).join(', ') || user.location || 'Location not set' : 'Location not set';
+    const selectedFarm = farms.find((f) => f.id === selectedFarmId);
+    const reportLat = selectedFarm?.lat || null;
+    const reportLng = selectedFarm?.lng || null;
 
     const { error } = await diagnosisService.generateReport({
       file: selectedFile,
@@ -253,6 +187,8 @@ export const DiseaseDetectionPage: React.FC = () => {
       farmer_name: user?.name || 'Ramesh Patil',
       phone: user?.phone || '+91 98220 14321',
       location: locationString,
+      lat: reportLat ?? undefined,
+      lng: reportLng ?? undefined,
       filename: `${selectedCrop}_crop_health_report.pdf`,
     });
 
@@ -280,6 +216,31 @@ export const DiseaseDetectionPage: React.FC = () => {
         <div className="rounded-2xl bg-amber-50 border border-amber-300 p-4 text-xs text-amber-900 flex items-start gap-2.5 shadow-xs">
           <Info className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
           <span>{apiError}</span>
+        </div>
+      )}
+      {(result as any)?.cropValidation?.status === 'mismatch' && (
+        <div className="rounded-2xl bg-red-50 border-2 border-red-400 p-4 text-xs text-red-900 flex items-start gap-2.5 shadow-md">
+          <AlertTriangle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
+          <div>
+            <strong className="text-sm">Crop Mismatch Detected!</strong>
+            <p className="mt-1">You selected <strong>{selectedCrop}</strong> but the AI model detected this as <strong>{(result as any)?.cropValidation?.detectedCrop || 'a different crop'}</strong>.
+            The uploaded leaf does not match {selectedCrop}. Please select the correct crop type and re-upload the right leaf image.</p>
+          </div>
+        </div>
+      )}
+      {(result as any)?.cropValidation?.status === 'no_dl_for_crop' && (
+        <div className="rounded-2xl bg-blue-50 border border-blue-300 p-4 text-xs text-blue-900 flex items-start gap-2.5 shadow-xs">
+          <Info className="h-4 w-4 text-blue-700 shrink-0 mt-0.5" />
+          <div>
+            <strong>Knowledge Base Result:</strong> The DL model does not have a trained model for {selectedCrop}. 
+            This result is based on the agronomic knowledge base only.
+          </div>
+        </div>
+      )}
+      {(result as any)?.cropValidation?.status === 'kb_fallback' && (
+        <div className="rounded-2xl bg-amber-50 border border-amber-300 p-3 text-xs text-amber-900 flex items-start gap-2.5 shadow-xs">
+          <Info className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
+          <span><strong>Note:</strong> Result matched via knowledge base fallback. DL model prediction was refined.</span>
         </div>
       )}
 
@@ -322,12 +283,19 @@ export const DiseaseDetectionPage: React.FC = () => {
                   onChange={(e) => setSelectedCrop(e.target.value)}
                   className="input-field"
                 >
-                  <option value="Tomato">Tomato (Solanum lycopersicum)</option>
-                  <option value="Chilli">Chilli (Capsicum annuum)</option>
-                  <option value="Groundnut">Groundnut (Arachis hypogaea)</option>
-                  <option value="Rice">Rice (Oryza sativa)</option>
-                  <option value="Soybean">Soybean (Glycine max)</option>
-                  <option value="Cotton">Cotton (Gossypium hirsutum)</option>
+                  <option value="Tomato">Tomato</option>
+                  <option value="Apple">Apple</option>
+                  <option value="Blueberry">Blueberry</option>
+                  <option value="Cherry">Cherry</option>
+                  <option value="Corn">Corn</option>
+                  <option value="Grape">Grape</option>
+                  <option value="Orange">Orange</option>
+                  <option value="Peach">Peach</option>
+                  <option value="Pepper">Pepper</option>
+                  <option value="Potato">Potato</option>
+                  <option value="Raspberry">Raspberry</option>
+                  <option value="Soybean">Soybean</option>
+                  <option value="Strawberry">Strawberry</option>
                 </select>
               </div>
             </div>
@@ -383,29 +351,14 @@ export const DiseaseDetectionPage: React.FC = () => {
               )}
             </div>
 
-            {/* Quick Demo Sample Photos */}
+            {/* Leaf Upload Note */}
             <div className="pt-3 border-t border-stone-100">
-              <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-                Or Try Sample Crop Specimens:
-              </span>
-              <div className="grid grid-cols-3 gap-2">
-                {sampleImages.map((sample, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => handleSelectSample(sample)}
-                    className="rounded-xl border border-stone-200 p-1.5 hover:border-agri-500 bg-white hover:bg-agri-50/50 transition-all text-left group"
-                  >
-                    <img
-                      src={sample.url}
-                      alt={sample.label}
-                      className="w-full h-16 object-cover rounded-lg mb-1"
-                    />
-                    <span className="block text-[11px] font-bold text-slate-800 truncate group-hover:text-agri-800">
-                      {sample.label}
-                    </span>
-                  </button>
-                ))}
+              <div className="rounded-xl bg-blue-50/80 border border-blue-200 p-3 text-xs text-blue-900 flex items-start gap-2">
+                <Info className="h-4 w-4 text-blue-700 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="block font-bold">Upload a Leaf Image Only</strong>
+                  <span>Please upload a clear photo of the <strong>affected leaf</strong> (not fruit or stem). Our DL model recognizes leaf diseases for: Tomato, Apple, Blueberry, Cherry, Corn, Grape, Orange, Peach, Pepper, Potato, Raspberry, Soybean, Strawberry.</span>
+                </div>
               </div>
             </div>
 

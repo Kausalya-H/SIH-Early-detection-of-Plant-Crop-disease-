@@ -30,35 +30,33 @@ export const MyFarmsPage: React.FC = () => {
 
   const handleAddFarm = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newFarm = await farmService.addFarm({
-      farmerId: 'MH-413801',
-      name,
-      plotNumber: `Gat No. ${Math.floor(100 + Math.random() * 900)}`,
-      village,
-      taluka,
-      district,
-      state,
-      areaAcres: parseFloat(areaAcres) || 2.5,
-      irrigationType,
-      crop: {
-        name: cropName,
-        variety: variety || 'Standard',
-        sowingDate: new Date().toISOString().split('T')[0],
-        stage: 'SOWING',
-        health: 'HEALTHY',
-        currentRisk: 'LOW',
-      },
-    });
-    setFarms([newFarm, ...farms]);
-    setIsAddModalOpen(false);
-    setName('');
+    try {
+      const newFarm = await farmService.addFarm({
+        farmName: name,
+        area: parseFloat(areaAcres) || 2.5,
+        location: `${village}, ${district}`,
+      });
+      // Also add the selected crop to the new farm
+      if (newFarm && newFarm.id) {
+        await farmService.addCrop(newFarm.id, { cropName: cropName, variety: variety || '', sowingDate: '' });
+      }
+      // Re-fetch farms to get the crop data
+      const updatedFarms = await farmService.getFarms();
+      setFarms(updatedFarms.length > 0 ? updatedFarms : [newFarm, ...farms]);
+      setIsAddModalOpen(false);
+      setName('');
+    } catch (err) {
+      console.error('Failed to create farm:', err);
+      alert('Failed to create farm. Make sure you are logged in.');
+    }
   };
 
   const filteredFarms = farms.filter(
     (f) =>
       f.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      f.crop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      f.village.toLowerCase().includes(searchTerm.toLowerCase())
+      f.crop?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (f.village || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (f.plotNumber || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -177,13 +175,19 @@ export const MyFarmsPage: React.FC = () => {
                 onChange={(e) => setCropName(e.target.value)}
                 className="input-field"
               >
-                <option value="Tomato">Tomato (टोमॅटो)</option>
-                <option value="Chilli">Chilli (मिरची)</option>
-                <option value="Soybean">Soybean (सोयाबीन)</option>
-                <option value="Cotton">Cotton (कापूस)</option>
-                <option value="Wheat">Wheat (गहू)</option>
-                <option value="Rice">Rice (भात)</option>
-                <option value="Groundnut">Groundnut (भुईमूग)</option>
+                <option value="Tomato">Tomato</option>
+                <option value="Apple">Apple</option>
+                <option value="Blueberry">Blueberry</option>
+                <option value="Cherry">Cherry</option>
+                <option value="Corn">Corn</option>
+                <option value="Grape">Grape</option>
+                <option value="Orange">Orange</option>
+                <option value="Peach">Peach</option>
+                <option value="Pepper">Pepper</option>
+                <option value="Potato">Potato</option>
+                <option value="Raspberry">Raspberry</option>
+                <option value="Soybean">Soybean</option>
+                <option value="Strawberry">Strawberry</option>
               </select>
             </div>
 

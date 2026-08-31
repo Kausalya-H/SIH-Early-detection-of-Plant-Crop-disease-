@@ -2,32 +2,39 @@ import { CropAlert } from '../types/alert';
 import { apiRequest } from './apiClient';
 import { ENDPOINTS } from './apiConfig';
 
-const ALERTS_ENDPOINT = ENDPOINTS.ALERTS;
-
 export const alertService = {
   async getAlerts(): Promise<CropAlert[]> {
-    const res = await apiRequest<CropAlert[]>(ALERTS_ENDPOINT);
-    if (res.data) {
-      return res.data.map((a: any) => ({
-        id: a.id,
-        title: a.title,
-        category: a.category,
-        severity: a.severity,
-        affectedCrops: a.affectedCrops || [],
-        district: a.district || '',
-        issueDate: a.issueDate || '',
-        validUntil: a.validUntil || '',
-        message: a.message,
-        actionRequired: a.actionRequired || '',
-        isRead: a.isRead || false,
-        issuedBy: a.issuedBy || 'System',
-        source: a.source || '',
-      }));
+    try {
+      const res = await apiRequest<CropAlert[]>(ENDPOINTS.REPORTS + '/stats/summary');
+      if (res.data) {
+        // Build alerts from real report data
+        const reports = res.data as any;
+        const alerts: CropAlert[] = [];
+        if (reports.highRiskReports && reports.highRiskReports > 0) {
+          alerts.push({
+            id: 'alert_auto_1',
+            title: reports.highRiskReports + ' High-Risk Disease Reports Pending Review',
+            category: 'DISEASE_OUTBREAK',
+            severity: 'HIGH',
+            affectedCrops: [],
+            district: '',
+            issueDate: new Date().toISOString().split('T')[0],
+            validUntil: new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0],
+            message: reports.highRiskReports + ' disease reports with high risk have been submitted and need review.',
+            actionRequired: 'Review high-risk disease reports and take appropriate action.',
+            isRead: false,
+            issuedBy: 'System',
+          });
+        }
+        return alerts;
+      }
+    } catch (e) {
+      console.warn('Backend alerts failed:', e);
     }
     return [];
   },
 
   async markAsRead(id: string): Promise<void> {
-    // Mark as read locally (no backend endpoint needed for now)
+    // No-op for now
   },
 };

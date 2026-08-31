@@ -30,25 +30,14 @@ export const AddFarmModal: React.FC<AddFarmModalProps> = ({ isOpen, onClose, onF
     setIsSubmitting(true);
     try {
       const newFarm = await farmService.addFarm({
-        farmerId: 'farmer_mh_413801',
-        name,
-        plotNumber: plotNumber || undefined,
-        village,
-        taluka,
-        district,
-        state,
-        areaAcres: parseFloat(areaAcres) || 1.0,
-        irrigationType,
-        crop: {
-          name: cropName,
-          variety: variety || undefined,
-          sowingDate,
-          stage,
-          health: 'HEALTHY',
-          currentRisk: 'LOW',
-        },
+        farmName: name,
+        area: parseFloat(areaAcres) || 1.0,
+        location: [village, district].filter(Boolean).join(', '),
       });
-      onFarmAdded(newFarm);
+      if (newFarm && newFarm.id) {
+        await farmService.addCrop(newFarm.id, { cropName: cropName, variety: variety || '', sowingDate: sowingDate || '' });
+      }
+      if (newFarm) onFarmAdded(newFarm);
       onClose();
     } catch (err) {
       console.error('Failed to add farm', err);
@@ -179,14 +168,18 @@ export const AddFarmModal: React.FC<AddFarmModalProps> = ({ isOpen, onClose, onF
                 className="input-field"
               >
                 <option value="Tomato">Tomato</option>
-                <option value="Chilli">Chilli</option>
-                <option value="Groundnut">Groundnut</option>
-                <option value="Rice">Rice (Paddy)</option>
-                <option value="Cotton">Cotton</option>
+                <option value="Apple">Apple</option>
+                <option value="Blueberry">Blueberry</option>
+                <option value="Cherry">Cherry</option>
+                <option value="Corn">Corn</option>
+                <option value="Grape">Grape</option>
+                <option value="Orange">Orange</option>
+                <option value="Peach">Peach</option>
+                <option value="Pepper">Pepper</option>
+                <option value="Potato">Potato</option>
+                <option value="Raspberry">Raspberry</option>
                 <option value="Soybean">Soybean</option>
-                <option value="Wheat">Wheat</option>
-                <option value="Onion">Onion</option>
-                <option value="Grapes">Grapes</option>
+                <option value="Strawberry">Strawberry</option>
               </select>
             </div>
 

@@ -1,54 +1,57 @@
 import { FarmAnalyticsData } from '../types/analytics';
 import { apiRequest } from './apiClient';
 import { ENDPOINTS } from './apiConfig';
+import { farmService } from './farmService';
+import { diagnosisService } from './diagnosisService';
 
 export const analyticsService = {
   async getAnalytics(): Promise<FarmAnalyticsData> {
-    const res = await apiRequest<any>(ENDPOINTS.REPORT_STATS);
-    if (res.data) {
-      const d = res.data;
-      const total = d.total || 0;
-      const confirmed = d.confirmed || 0;
-      const healthScore = total > 0 ? Math.round((confirmed / total) * 100) : 85;
-      return {
-        overallHealthScore: Math.max(healthScore, 60),
-        totalScansThisMonth: total,
-        totalFarms: 0,
-        totalCrops: 0,
-        healthyCrops: confirmed,
-        cropsAtRisk: d.flagged || 0,
-        diseasesDetected: d.pending || 0,
-        averageConfidence: 88.5,
-        treatmentCompliance: 100,
-        cropHealthDistribution: [
-          { crop: 'Tomato', healthy: confirmed, diseased: total - confirmed },
-        ],
-        monthlyTrends: [
-          { month: 'Jan', scans: Math.floor(total * 0.2), diseases: Math.floor(d.pending * 0.2) },
-          { month: 'Feb', scans: Math.floor(total * 0.3), diseases: Math.floor(d.pending * 0.3) },
-          { month: 'Mar', scans: Math.floor(total * 0.5), diseases: Math.floor(d.pending * 0.5) },
-          { month: 'Apr', scans: total, diseases: d.pending },
-        ],
-        diseaseBreakdown: [
-          { disease: 'Early Blight', count: Math.floor(total * 0.4), crop: 'Tomato' },
-          { disease: 'Late Blight', count: Math.floor(total * 0.3), crop: 'Tomato' },
-          { disease: 'Leaf Spot', count: Math.floor(total * 0.3), crop: 'Tomato' },
-        ],
-      };
+    // Try backend stats endpoint first
+    try {
+      const res = await apiRequest<any>(ENDPOINTS.REPORT_STATS);
+      if (res.data) {
+        return {
+          totalFarms: res.data.totalFarms || 0,
+          totalAcreage: res.data.totalAcreage || 0,
+          overallHealthScore: res.data.healthyPercentage || 0,
+          healthyCropsPercentage: res.data.healthyPercentage || 0,
+          activeAlertsCount: 0,
+          totalScansThisMonth: res.data.totalReports || 0,
+          healthDistribution: [
+            { status: 'Healthy Crops', percentage: res.data.healthyPercentage || 0, plotCount: 0, color: '#16a34a' },
+            { status: 'Under Watch', percentage: 25, plotCount: 0, color: '#eab308' },
+            { status: 'Active Disease Risk', percentage: res.data.highRiskReports || 0, plotCount: 0, color: '#ea580c' },
+          ],
+          monthlyTrends: [],
+          topDiseases: [],
+        };
+      }
+    } catch (e) {
+      console.warn('Backend stats failed, computing from farms:', e);
     }
+
+    // Fallback: compute from real farm data
+    const farms = await farmService.getFarms();
+    const diagnoses = await diagnosisService.getDiagnoses();
+    const totalFarms = farms.length;
+    const totalAcreage = farms.reduce((sum, f) => sum + (f.areaAcres || 0), 0);
+    const totalScans = diagnoses.length;
+    const healthyCount = diagnoses.filter(d => d.riskLevel === 'LOW').length;
+    const healthyPct = totalScans > 0 ? Math.round((healthyCount / totalScans) * 100) : 100;
+
     return {
-      overallHealthScore: 85,
-      totalScansThisMonth: 0,
-      totalFarms: 0,
-      totalCrops: 0,
-      healthyCrops: 0,
-      cropsAtRisk: 0,
-      diseasesDetected: 0,
-      averageConfidence: 0,
-      treatmentCompliance: 0,
-      cropHealthDistribution: [],
+      totalFarms,
+      totalAcreage,
+      overallHealthScore: healthyPct,
+      healthyCropsPercentage: healthyPct,
+      activeAlertsCount: 0,
+      totalScansThisMonth: totalScans,
+      healthDistribution: [
+        { status: 'Healthy Crops', percentage: healthyPct, plotCount: 0, color: '#16a34a' },
+        { status: 'Under Watch', percentage: 100 - healthyPct, plotCount: 0, color: '#eab308' },
+      ],
       monthlyTrends: [],
-      diseaseBreakdown: [],
+      topDiseases: [],
     };
   },
 };

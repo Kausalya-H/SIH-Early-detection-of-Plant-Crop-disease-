@@ -28,6 +28,8 @@ export interface Farm {
   lastScanDate?: string;
   totalScansCount: number;
   createdAt: string;
+  lat?: number | null;
+  lng?: number | null;
 }
 
 export interface FarmerProfile {

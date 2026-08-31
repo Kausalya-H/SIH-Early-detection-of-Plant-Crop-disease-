@@ -1,107 +1,113 @@
-from fastapi import APIRouter, HTTPException, Depends, Query
+from datetime import datetime, timezone
+from fastapi import APIRouter, HTTPException, Depends
 from typing import Optional
-from app.database import reports_collection, farms_collection
-from app.routes.auth import get_current_user
+from pydantic import BaseModel
 from bson import ObjectId
-from datetime import datetime
+
+from app.database import disease_reports_collection
+from app.routes.auth import get_current_user
 
 router = APIRouter(prefix="/reports", tags=["Disease Reports"])
 
+
+class ReportBody(BaseModel):
+    farmId: str = ""
+    cropName: str = ""
+    disease: str = ""
+    confidence: float = 0
+    severity: str = ""
+    weatherRisk: str = ""
+    overallSeverity: str = ""
+    overallRiskScore: float = 0
+    advice: str = ""
+    treatment: str = ""
+
+
+def get_user_id(user):
+    return user.get("sub") or user.get("user_id") or user.get("email", "")
+
+
 @router.post("/")
-def save_report(
-    userId: str,
-    cropName: str,
-    disease: str,
-    confidence: float,
-    farmId: Optional[str] = None,
-    cropId: Optional[str] = None,
-    diseaseCategory: Optional[str] = None,
-    causalAgent: Optional[str] = None,
-    severity: Optional[str] = None,
-    weather: Optional[dict] = None,
-    riskScore: Optional[float] = None,
-    overallSeverity: Optional[str] = None,
-    treatment: Optional[str] = None,
-    activeIngredient: Optional[str] = None,
-    safetyNote: Optional[str] = None,
-    user_id: str = Depends(get_current_user),
-):
+def save_report(body: ReportBody, user=Depends(get_current_user)):
+    uid = get_user_id(user)
     report = {
-        "userId": user_id,
-        "farmId": farmId,
-        "cropId": cropId,
-        "cropName": cropName,
-        "disease": disease,
-        "confidence": confidence,
-        "diseaseCategory": diseaseCategory,
-        "causalAgent": causalAgent,
-        "severity": severity,
-        "weather": weather,
-        "riskScore": riskScore,
-        "overallSeverity": overallSeverity,
-        "treatment": treatment,
-        "activeIngredient": activeIngredient,
-        "safetyNote": safetyNote,
+        "userId": uid,
+        "farmId": body.farmId,
+        "cropName": body.cropName,
+        "disease": body.disease,
+        "confidence": body.confidence,
+        "severity": body.severity,
+        "weatherRisk": body.weatherRisk,
+        "overallSeverity": body.overallSeverity,
+        "overallRiskScore": body.overallRiskScore,
+        "advice": body.advice,
+        "treatment": body.treatment,
         "status": "pending",
-        "createdAt": datetime.utcnow().isoformat(),
+        "createdAt": datetime.now(timezone.utc).isoformat(),
     }
-    result = reports_collection.insert_one(report)
-    return {"message": "Report saved", "report_id": str(result.inserted_id)}
-
-@router.get("/")
-def get_my_reports(
-    user_id: str = Depends(get_current_user),
-    farmId: Optional[str] = Query(None),
-    cropName: Optional[str] = Query(None),
-    status: Optional[str] = Query(None),
-    limit: int = Query(50, le=200),
-):
-    query = {"userId": user_id}
-    if farmId:
-        query["farmId"] = farmId
-    if cropName:
-        query["cropName"] = cropName
-    if status:
-        query["status"] = status
-    reports = list(reports_collection.find(query).sort("createdAt", -1).limit(limit))
-    for r in reports:
-        r["_id"] = str(r["_id"])
-    return reports
-
-@router.get("/{report_id}")
-def get_report(report_id: str, user_id: str = Depends(get_current_user)):
-    try:
-        report = reports_collection.find_one({"_id": ObjectId(report_id), "userId": user_id})
-    except Exception:
-        raise HTTPException(status_code=404, detail="Report not found")
-    if not report:
-        raise HTTPException(status_code=404, detail="Report not found")
-    report["_id"] = str(report["_id"])
+    result = disease_reports_collection.insert_one(report)
+    report["id"] = str(result.inserted_id)
+    report.pop("_id", None)
     return report
 
-@router.patch("/{report_id}/status")
-def update_report_status(
-    report_id: str,
-    status: str = Query(...),
-    user_id: str = Depends(get_current_user),
-):
-    if status not in ["pending", "confirmed", "flagged"]:
-        raise HTTPException(status_code=400, detail="Invalid status")
-    try:
-        result = reports_collection.update_one(
-            {"_id": ObjectId(report_id)},
-            {"": {"status": status, "updatedAt": datetime.utcnow().isoformat()}}
-        )
-    except Exception:
-        raise HTTPException(status_code=404, detail="Report not found")
-    if result.modified_count == 0:
-        raise HTTPException(status_code=404, detail="Report not found")
-    return {"message": f"Report status updated to {status}"}
+
+@router.get("/")
+def get_my_reports(user=Depends(get_current_user)):
+    uid = get_user_id(user)
+    reports = list(disease_reports_collection.find({"userId": uid}).sort("createdAt", -1))
+    for r in reports:
+        r["id"] = str(r["_id"])
+        r.pop("_id", None)
+    return reports
+
 
 @router.get("/stats/summary")
-def get_stats(user_id: str = Depends(get_current_user)):
-    total = reports_collection.count_documents({"userId": user_id})
-    pending = reports_collection.count_documents({"userId": user_id, "status": "pending"})
-    confirmed = reports_collection.count_documents({"userId": user_id, "status": "confirmed"})
-    flagged = reports_collection.count_documents({"userId": user_id, "status": "flagged"})
-    return {"total": total, "pending": pending, "confirmed": confirmed, "flagged": flagged}
+def get_stats(user=Depends(get_current_user)):
+    uid = get_user_id(user)
+    reports = list(disease_reports_collection.find({"userId": uid}))
+    total = len(reports)
+    diseases = {}
+    severity_counts = {"LOW": 0, "MODERATE": 0, "HIGH": 0, "CRITICAL": 0}
+    for r in reports:
+        d = r.get("disease", "Unknown")
+        diseases[d] = diseases.get(d, 0) + 1
+        sev = r.get("overallSeverity", r.get("severity", "LOW"))
+        severity_counts[sev] = severity_counts.get(sev, 0) + 1
+    return {
+        "totalScans": total,
+        "diseases": diseases,
+        "severityBreakdown": severity_counts,
+        "topDiseases": sorted(diseases.items(), key=lambda x: x[1], reverse=True)[:5],
+    }
+
+
+@router.get("/{report_id}")
+def get_report(report_id: str, user=Depends(get_current_user)):
+    uid = get_user_id(user)
+    try:
+        report = disease_reports_collection.find_one({"_id": ObjectId(report_id), "userId": uid})
+    except Exception:
+        report = disease_reports_collection.find_one({"_id": report_id, "userId": uid})
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    report["id"] = str(report["_id"])
+    report.pop("_id", None)
+    return report
+
+
+@router.patch("/{report_id}/status")
+def update_report_status(report_id: str, status: str, user=Depends(get_current_user)):
+    uid = get_user_id(user)
+    try:
+        result = disease_reports_collection.update_one(
+            {"_id": ObjectId(report_id), "userId": uid},
+            {"$set": {"status": status}},
+        )
+    except Exception:
+        result = disease_reports_collection.update_one(
+            {"_id": report_id, "userId": uid},
+            {"$set": {"status": status}},
+        )
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Report not found")
+    return {"message": "Status updated", "status": status}

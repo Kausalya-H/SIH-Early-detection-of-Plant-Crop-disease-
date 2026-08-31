@@ -10,6 +10,7 @@ export interface TreatmentRecommendation {
 export interface BackendPredictResponse {
   crop: string;
   disease: string;
+  detectedCrop?: string;
   confidence: number;
   severity?: string;
   warning_signs?: string[];
@@ -19,6 +20,22 @@ export interface BackendPredictResponse {
   application?: string;
   safety_note?: string;
   message?: string;
+  overallSeverity?: string;
+  overallRiskScore?: number;
+  weatherRisk?: any;
+  cropValidation?: {
+    status: string;
+    detectedCrop?: string;
+    message: string;
+  };
+  lang?: string;
+  symptoms?: string[];
+  cause?: string;
+  category?: string;
+  immediate_actions?: string[];
+  prevention?: string[];
+  fertilizer_guidance?: any;
+  verification?: any;
 }
 
 export interface DiagnosisRecord {

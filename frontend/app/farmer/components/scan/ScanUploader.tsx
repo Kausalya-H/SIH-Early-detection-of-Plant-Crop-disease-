@@ -58,7 +58,7 @@ export const ScanUploader: React.FC<ScanUploaderProps> = ({
     if (cameraInputRef.current) cameraInputRef.current.value = '';
   };
 
-  const cropOptions = ['Tomato', 'Chilli', 'Groundnut', 'Rice', 'Cotton', 'Soybean', 'Wheat', 'Onion', 'Grapes'];
+  const cropOptions = ['Tomato', 'Apple', 'Blueberry', 'Cherry', 'Corn', 'Grape', 'Orange', 'Peach', 'Pepper', 'Potato', 'Raspberry', 'Soybean', 'Strawberry'];
 
   return (
     <div className="space-y-6">
