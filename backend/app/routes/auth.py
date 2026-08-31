@@ -152,6 +152,11 @@ def get_me(user=Depends(get_current_user)):
 
     db_user["_id"] = str(db_user["_id"])
     db_user.pop("password", None)
+    # Map placeName to village for frontend compatibility
+    if not db_user.get("village") and db_user.get("placeName"):
+        db_user["village"] = db_user["placeName"]
+    if not db_user.get("location") and db_user.get("placeName"):
+        db_user["location"] = db_user["placeName"]
     return db_user
 
 
@@ -205,6 +210,13 @@ def register_full(body: RegisterFullBody):
         }
         farm_result = farms_collection.insert_one(farm_doc)
         farm_id = str(farm_result.inserted_id)
+        
+        # Also update user document with resolved lat/lng
+        if farm_lat and farm_lng:
+            users_collection.update_one(
+                {"_id": result.inserted_id},
+                {"$set": {"lat": farm_lat, "lng": farm_lng}}
+            )
 
         # Support multiple crops
         crops_to_add = body.cropNames if body.cropNames else []

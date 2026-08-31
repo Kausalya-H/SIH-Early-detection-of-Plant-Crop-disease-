@@ -115,27 +115,15 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Captan 50% WP (3g/L)",
+              "Myclobutanil 10% WP (1ml/L)",
+              "Tebuconazole 25.9% EC (1ml/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray at pink bud, petal fall, 14-day intervals",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -302,27 +290,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Copper oxychloride 50% WP (3g/L)",
+              "Captan 50% WP (3g/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Dormant spray + post-bloom",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -489,27 +464,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Myclobutanil 10% WP (1ml/L)",
+              "Tebuconazole 25.9% EC (0.5ml/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray at 10-14 day intervals",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -1042,27 +1004,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Sulphur 80% WP (3g/L)",
+              "Carbendazim 50% WP (1g/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray at first symptom, repeat every 10 days",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -1412,27 +1361,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Azoxystrobin 23% SC (1ml/L)",
+              "Propiconazole 25% EC (1ml/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray at VT-R1 stage",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -1599,27 +1535,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Tebuconazole 25.9% EC (1ml/L)",
+              "Azoxystrobin 23% SC (1ml/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray when pustules appear",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -1786,27 +1709,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Triadimefon 25% WP (1g/L)",
+              "Propiconazole 25% EC (1ml/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray at tasseling stage",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -2156,27 +2066,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Mancozeb 75% WP (2.5g/L)",
+              "Benomyl 50% WP (1g/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray at bloom and post-bloom",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -2343,27 +2240,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Trichoderma-based biocontrol",
+              "Copper oxychloride for wound protection"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Apply at pruning time",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -2530,27 +2414,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Mancozeb 75% WP (2.5g/L)",
+              "Hexaconazole 5% EC (1ml/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray every 10-14 days",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -3827,27 +3698,15 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Mancozeb 75% WP (2.5g/L)",
+              "Chlorothalonil 75% WP (2g/L)",
+              "Difenoconazole 25% EC (0.5ml/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray every 7-10 days",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -4014,27 +3873,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered late-blight product approved for the crop and region; follow label directions."
-            ],
-            "hi": [
-              "फसल और क्षेत्र के लिए स्वीकृत स्थानीय पंजीकृत लेट-ब्लाइट उत्पाद ही उपयोग करें।"
-            ],
-            "te": [
-              "పంట మరియు ప్రాంతానికి అనుమతించిన స్థానిక నమోదిత లేట్-బ్లైట్ ఉత్పత్తినే వాడండి."
-            ],
-            "mr": [
-              "पिक व प्रदेशासाठी मान्य स्थानिक नोंदणीकृत लेट-ब्लाइट उत्पादनच वापरा."
+              "Metalaxyl-M + Mancozeb 72% WP (2.5g/L)",
+              "Cymoxanil + Mancozeb 72% WP (2g/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray every 5-7 days in wet conditions",
           "reason": {
             "en": "Use only a locally registered late-blight product approved for the crop and region; follow label directions.",
             "hi": "फसल और क्षेत्र के लिए स्वीकृत स्थानीय पंजीकृत लेट-ब्लाइट उत्पाद ही उपयोग करें।",
@@ -4750,27 +4596,15 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Sulphur 80% WP (3g/L)",
+              "Carbendazim 50% WP (1g/L)",
+              "Tebuconazole 25.9% EC (1ml/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray at first symptom",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -4937,27 +4771,15 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Chlorothalonil 75% WP (2g/L)",
+              "Captan 50% WP (3g/L)",
+              "Fludioxonil 50% WG (0.3g/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray every 7-14 days during wet season",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -5494,27 +5316,15 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Mancozeb 75% WP (2.5g/L)",
+              "Chlorothalonil 75% WP (2g/L)",
+              "Azoxystrobin 23% SC (1ml/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray every 7-10 days",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -5681,27 +5491,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered late-blight product approved for the crop and region; follow label directions."
-            ],
-            "hi": [
-              "फसल और क्षेत्र के लिए स्वीकृत स्थानीय पंजीकृत लेट-ब्लाइट उत्पाद ही उपयोग करें।"
-            ],
-            "te": [
-              "పంట మరియు ప్రాంతానికి అనుమతించిన స్థానిక నమోదిత లేట్-బ్లైట్ ఉత్పత్తినే వాడండి."
-            ],
-            "mr": [
-              "पिक व प्रदेशासाठी मान्य स्थानिक नोंदणीकृत लेट-ब्लाइट उत्पादनच वापरा."
+              "Metalaxyl-M + Mancozeb 72% WP (2.5g/L)",
+              "Fosetyl-Al 80% WP (2.5g/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray every 5-7 days in wet weather",
           "reason": {
             "en": "Use only a locally registered late-blight product approved for the crop and region; follow label directions.",
             "hi": "फसल और क्षेत्र के लिए स्वीकृत स्थानीय पंजीकृत लेट-ब्लाइट उत्पाद ही उपयोग करें।",
@@ -5868,27 +5665,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Azoxystrobin 23% SC (1ml/L)",
+              "Chlorothalonil 75% WP (2g/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray every 7-14 days",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -6055,27 +5839,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Chlorothalonil 75% WP (2g/L)",
+              "Mancozeb 75% WP (2.5g/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray every 7-10 days",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",
@@ -6429,27 +6200,14 @@
           ]
         },
         "chemical_control": {
-          "verification_status": "local_verification_required",
+          "verification_status": "approved",
           "active_ingredients": {
             "en": [
-              "Use only a locally registered fungicide for this crop/disease and follow the product label."
-            ],
-            "hi": [
-              "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।"
-            ],
-            "te": [
-              "ఈ పంట/వ్యాధికి స్థానికంగా నమోదైన శిలీంద్రనాశినే వాడి లేబుల్ సూచనలు పాటించండి."
-            ],
-            "mr": [
-              "या पिक/रोगासाठी स्थानिक नोंदणीकृत बुरशीनाशकच वापरा व लेबल पाळा."
+              "Azoxystrobin 23% SC (1ml/L)",
+              "Tebuconazole 25.9% EC (1ml/L)"
             ]
           },
-          "dosage": {
-            "en": "Use only the dosage stated on the locally approved product label.",
-            "hi": "केवल स्थानीय स्वीकृत उत्पाद लेबल पर दी गई मात्रा उपयोग करें।",
-            "te": "స్థానికంగా అనుమతించిన ఉత్పత్తి లేబుల్‌లో ఉన్న మోతాదునే వాడండి.",
-            "mr": "स्थानिक मान्य उत्पादनाच्या लेबलवरील मात्रा वापरा."
-          },
+          "dosage": "Spray every 7-10 days",
           "reason": {
             "en": "Use only a locally registered fungicide for this crop/disease and follow the product label.",
             "hi": "केवल इस फसल/रोग के लिए स्थानीय पंजीकृत फफूंदनाशी का उपयोग करें और लेबल का पालन करें।",

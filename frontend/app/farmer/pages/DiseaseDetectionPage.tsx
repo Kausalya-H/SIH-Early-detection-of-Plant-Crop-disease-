@@ -89,8 +89,8 @@ export const DiseaseDetectionPage: React.FC = () => {
 
     // 1. Try real FastAPI backend POST /disease/predict
     if (selectedFile) {
-      const farmLat = selectedFarm ? (selectedFarm as any).lat || (selectedFarm as any).latitude || null : null;
-      const farmLng = selectedFarm ? (selectedFarm as any).lng || (selectedFarm as any).longitude || null : null;
+      const farmLat = selectedFarm ? (selectedFarm as any).lat || (selectedFarm as any).latitude : (user as any)?.lat || (user as any)?.latitude || null;
+      const farmLng = selectedFarm ? (selectedFarm as any).lng || (selectedFarm as any).longitude : (user as any)?.lng || (user as any)?.longitude || null;
       const { data, error } = await diagnosisService.predictDisease(selectedFile, selectedCrop, farmLat ?? undefined, farmLng ?? undefined);
       if (data) {
         backendData = data;
@@ -176,10 +176,10 @@ export const DiseaseDetectionPage: React.FC = () => {
     }
 
     setIsDownloadingPdf(true);
-    const locationString = user ? [user.village, user.taluka, user.district, user.state].filter(Boolean).join(', ') || user.location || 'Location not set' : 'Location not set';
+    const locationString = user ? [user.village || (user as any).placeName, user.taluka, user.district, user.state].filter(Boolean).join(', ') || user.location || (user as any).placeName || 'Location not set' : 'Location not set';
     const selectedFarm = farms.find((f) => f.id === selectedFarmId);
-    const reportLat = selectedFarm?.lat || null;
-    const reportLng = selectedFarm?.lng || null;
+    const reportLat = selectedFarm?.lat || (user as any)?.lat || null;
+    const reportLng = selectedFarm?.lng || (user as any)?.lng || null;
 
     const { error } = await diagnosisService.generateReport({
       file: selectedFile,
