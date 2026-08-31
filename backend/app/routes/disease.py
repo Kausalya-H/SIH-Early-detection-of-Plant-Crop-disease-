@@ -194,25 +194,15 @@ async def predict_disease(
 
 
 
-        if disease_info:
-
-            response.update({
-
-                "severity": disease_info["severity"],
-
-                "warning_signs": disease_info["warning_signs"],
-
-                "advice": disease_info["advice"],
-
-                "treatment": disease_info["treatment"],
-
-                "active_ingredient": disease_info["active_ingredient"],
-
-                "application": disease_info["application"],
-
-                "safety_note": disease_info["safety_note"],
-
-            })
+        # Only use old KB as fallback - INNOVATRIX KB takes priority
+        if disease_info and not response.get("active_ingredient"):
+            response["severity"] = disease_info.get("severity", "")
+            response["warning_signs"] = disease_info.get("warning_signs", [])
+            response["advice"] = disease_info.get("advice", "")
+            response["treatment"] = disease_info.get("treatment", "")
+            response["active_ingredient"] = disease_info.get("active_ingredient", "")
+            response["application"] = disease_info.get("application", "")
+            response["safety_note"] = disease_info.get("safety_note", "")
 
 
 

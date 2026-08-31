@@ -22,6 +22,21 @@ export const AdminPortalPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [filterQuery, setFilterQuery] = useState('');
+  const [realUsers, setRealUsers] = useState<any[]>([]);
+  const [realReports, setRealReports] = useState<any[]>([]);
+  const [realFarms, setRealFarms] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    // Fetch real users from backend
+    fetch('/admin/users', { headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('krishirakshak_token') || '') } })
+      .then(r => r.json()).then(d => setRealUsers(Array.isArray(d) ? d : d.users || [])).catch(() => {});
+    // Fetch real disease reports
+    fetch('/reports', { headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('krishirakshak_token') || '') } })
+      .then(r => r.json()).then(d => setRealReports(Array.isArray(d) ? d : [])).catch(() => {});
+    // Fetch real farms
+    fetch('/farms/', { headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('krishirakshak_token') || '') } })
+      .then(r => r.json()).then(d => setRealFarms(Array.isArray(d) ? d : [])).catch(() => {});
+  }, []);
 
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to log out from Central Admin?')) {
